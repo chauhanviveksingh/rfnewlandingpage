@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import home_img from './assets/home_img.png';
+
 import { CalendarDays } from 'lucide-react';
 
 // This is the main application component.
@@ -100,14 +102,13 @@ const App = () => {
         {/* Top banner with an image */}
         <div className="relative w-full overflow-hidden bg-white shadow-lg rounded-b-[4rem] md:rounded-b-[6rem] lg:rounded-b-[8rem]">
           <img
-            src="src/assets/home_img.png"
+            src={home_img.png}
             alt="A family eating together in a train"
             className="w-full h-80 sm:h-96 object-cover object-center rounded-b-[4rem] md:rounded-b-[6rem] lg:rounded-b-[8rem]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-70 rounded-b-[4rem] md:rounded-b-[6rem] lg:rounded-b-[8rem]"></div>
         </div>
 
-        {/* The text has been moved here, below the image */}
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 text-center drop-shadow-md mt-8">
             Order food online in train!
         </h1>
