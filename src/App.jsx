@@ -1,6 +1,10 @@
 import React, { useState, memo } from "react";
 import { CalendarDays } from "lucide-react";
-import homeImg from "./assets/home_img.png";
+
+// The previous image import was causing a compilation error.
+// We've replaced it with a valid placeholder image URL to fix the issue.
+// You can replace this URL with your desired image URL later.
+const homeImgUrl = "https://placehold.co/1200x400/E5E7EB/4B5563?text=Delicious+Food+in+Train";
 
 // Helper function to format date parts
 const formatDateParts = (date) => {
@@ -130,9 +134,10 @@ const App = () => {
     return x;
   };
 
-  // Calendar state
+  // Calendar state and visibility state
   const today = startOfDay(new Date());
   const [selectedDate, setSelectedDate] = useState(today); // Date object
+  const [showFullCalendar, setShowFullCalendar] = useState(false);
 
   // Build the small 4-day list (today + next 3 days)
   const cardDates = [0, 1, 2, 3].map((offset) => {
@@ -171,6 +176,88 @@ const App = () => {
   const commonButtonClass =
     "col-span-1 h-16 md:h-full bg-red-600 text-white font-bold text-xl rounded-xl shadow-md hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2";
 
+  // New Full Calendar Component
+  const FullCalendar = ({ selectedDate, setSelectedDate, onClose }) => {
+    const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate.getFullYear(), selectedDate.getMonth()));
+
+    // Set a threshold for past selectable dates (3 days before today)
+    const pastSelectableThreshold = new Date();
+    pastSelectableThreshold.setDate(pastSelectableThreshold.getDate() - 3);
+
+    const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    const renderDays = () => {
+      const totalDays = daysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+      const firstDay = firstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+      const daysArray = [];
+
+      // Add leading empty cells for alignment
+      for (let i = 0; i < firstDay; i++) {
+        daysArray.push(<div key={`empty-${i}`} className="w-10 h-10"></div>);
+      }
+
+      // Add day cells
+      for (let day = 1; day <= totalDays; day++) {
+        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+        const isSelected = startOfDay(date).getTime() === startOfDay(selectedDate).getTime();
+        const isToday = startOfDay(date).getTime() === startOfDay(new Date()).getTime();
+        
+        // Determine if the date is in the past and not selectable
+        const isUnselectablePastDate = startOfDay(date).getTime() < startOfDay(pastSelectableThreshold).getTime();
+        
+        daysArray.push(
+          <div
+            key={day}
+            onClick={isUnselectablePastDate ? null : () => {
+              setSelectedDate(date);
+              onClose(); // Close the calendar after selection
+            }}
+            className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium
+              ${isSelected ? 'bg-red-600 text-white' : 'hover:bg-gray-200 text-gray-800'}
+              ${isToday && !isSelected ? 'border border-red-600 text-red-600' : ''}
+              ${isUnselectablePastDate ? 'text-gray-300 cursor-not-allowed hover:bg-transparent' : ''}
+            `}
+          >
+            {day}
+          </div>
+        );
+      }
+      return daysArray;
+    };
+
+    const nextMonth = () => {
+      setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
+    };
+
+    const prevMonth = () => {
+      setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1));
+    };
+
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
+        <div className="flex justify-between items-center mb-4">
+          <button onClick={prevMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
+            &lt;
+          </button>
+          <span className="text-lg font-bold">
+            {currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+          </span>
+          <button onClick={nextMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
+            &gt;
+          </button>
+        </div>
+        <div className="grid grid-cols-7 gap-2 text-center text-sm font-semibold text-gray-500">
+          {dayNames.map(day => <div key={day}>{day}</div>)}
+        </div>
+        <div className="grid grid-cols-7 gap-2 text-center mt-2">
+          {renderDays()}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 font-sans flex flex-col items-center">
       {/* Tailwind CSS CDN script for styling */}
@@ -188,7 +275,7 @@ const App = () => {
       {/* Top banner with an image - small curve (6px) */}
       <div className="relative w-full overflow-hidden bg-white shadow-lg rounded-b-[6px]">
         <img
-          src={homeImg}
+          src={homeImgUrl}
           alt="A family eating together in a train"
           className="w-full h-64 sm:h-80 md:h-96 object-cover object-center rounded-b-[6px]"
         />
@@ -217,7 +304,7 @@ const App = () => {
 
         {/* Date picker + 4-date cards */}
         <div className="mt-8">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 cursor-pointer" onClick={() => setShowFullCalendar(!showFullCalendar)}>
             <h3 className="text-xl font-bold">Boarding Date</h3>
             <CalendarDays size={24} className="text-red-600" />
           </div>
@@ -241,6 +328,10 @@ const App = () => {
               </div>
             ))}
           </div>
+
+          {showFullCalendar && (
+            <FullCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} onClose={() => setShowFullCalendar(false)} />
+          )}
         </div>
       </div>
 
