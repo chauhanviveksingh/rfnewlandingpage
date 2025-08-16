@@ -1,6 +1,6 @@
 import React, { useState, memo } from "react";
 import { CalendarDays } from "lucide-react";
-import HomeImg from "./assets/home_img.png"; // Importing the home image
+import HomeImg from "./assets/home_img.webp"; // Importing the home image
 
 // The previous image import was causing a compilation error.
 // We've replaced it with a valid placeholder image URL to fix the issue.
