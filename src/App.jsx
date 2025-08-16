@@ -1,10 +1,11 @@
 import React, { useState, memo } from "react";
 import { CalendarDays } from "lucide-react";
+import HomeImg from "./assets/home_img.png"; // Importing the home image
 
 // The previous image import was causing a compilation error.
 // We've replaced it with a valid placeholder image URL to fix the issue.
 // You can replace this URL with your desired image URL later.
-const homeImgUrl = "https://placehold.co/1200x400/E5E7EB/4B5563?text=Delicious+Food+in+Train";
+const homeImgUrl = HomeImg;
 
 // Helper function to format date parts
 const formatDateParts = (date) => {
