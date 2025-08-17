@@ -5,8 +5,6 @@ const CollapsibleContent = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const toggleContent = () => setIsExpanded(!isExpanded);
-
-  // Toggle a specific faq answer by index
   const toggleFaq = (index) =>
     setOpenFaqIndex(openFaqIndex === index ? null : index);
 
@@ -14,208 +12,172 @@ const CollapsibleContent = () => {
     {
       q: "What are the payment methods available to order food on train?",
       a:
-        "You can pay using credit/debit cards, UPI, net banking and even digital wallets. Swiggy offers multiple payment options for a smooth checkout."
+        "You can pay using cards, UPI, net banking or wallets. Swiggy offers multiple options for hassle-free checkout."
     },
     {
       q: "How can I track my food on train order?",
       a:
-        "Once you place the order, you will get live tracking in your Swiggy App showing when your meal is being prepared, dispatched, and delivered."
+        "Once your order is placed, the app shows live tracking as food is prepared, dispatched and delivered."
     },
     {
       q: "Can I book food for someone else travelling by train?",
       a:
-        "Yes, simply enter their PNR number and select the boarding station. Food will be delivered directly to their train seat even if you are not the traveler."
+        "Yes, you can enter their PNR number and Swiggy will deliver to their seat even if you are not travelling."
     },
     {
       q: "How do I raise a complaint about the food ordered through Swiggy?",
       a:
-        "You can contact Swiggy customer support through the app help section. They will assist with refunds or replacements if there is any issue."
+        "Use the Help section in the Swiggy App to raise a complaint. Swiggy will assist or refund if needed."
     },
     {
       q: "What are the cancellation and refund policies when you order food on train?",
       a:
-        "Orders can be cancelled before the food is prepared. If the train is delayed or food cannot be delivered, Swiggy provides a full refund."
-    },
-    {
-      q: "What happens to my food order if my train is cancelled?",
-      a:
-        "If the train is cancelled or does not reach the station, the order is automatically cancelled and a full refund is initiated."
-    },
-    {
-      q: "Whom do I contact to receive my order at my train seat?",
-      a:
-        "The delivery executive will contact you on your phone number and deliver the food directly at your seat number mentioned in your PNR."
-    },
-    {
-      q: "What will happen if Swiggy cannot deliver my order?",
-      a:
-        "In the rare case of non-delivery, Swiggy will refund your amount in full and you will be notified through the app."
-    },
-    {
-      q: "My train is scheduled for next week. When can I place my order?",
-      a:
-        "You can pre-order meals usually 24 hours before your travel date so that food gets delivered fresh on the day of your journey."
+        "You can cancel before the meal is prepared. If delivery fails, Swiggy refunds the full amount."
     }
   ];
 
   return (
-    <div className="text-center my-10">
-      {/* Always visible heading */}
-      <h2 className="text-2xl md:text-3xl font-bold">
+    <div className="bg-gray-50 py-10 flex flex-col items-center">
+      <h2 className="text-2xl md:text-3xl font-bold text-center">
         Happy travel! <br />
-        See you on your train ride <span role="img" aria-label="heart">💗</span>
+        See you on your train ride <span role="img" aria-label="heart">🚊</span>
       </h2>
 
-      {/* Explore More */}
-      {!isExpanded && (
+      {!isExpanded ? (
         <button
           onClick={toggleContent}
-          className="mt-6 px-8 py-3 border-2 border-orange-500 text-orange-500 font-semibold rounded-xl hover:bg-orange-100 transition-all duration-200 inline-flex items-center gap-2"
+          className="mt-6 px-8 py-3 border-2 border-red-500 text-red-500 font-semibold rounded-xl hover:bg-red-100 transition-all duration-200"
         >
-          Explore More <span>➜</span>
+          Explore More ➜
         </button>
-      )}
-
-      {/* Expanded entire block */}
-      {isExpanded && (
-        <div className="mt-10 text-left max-w-3xl mx-auto space-y-8">
-
-          {/* Benefits Section */}
-          <div>
+      ) : (
+        <div className="w-full max-w-4xl space-y-6 mt-10">
+        
+          {/* Benefits Card */}
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
             <h3 className="text-xl font-bold mb-2">Benefits of Ordering Food on Train Using Swiggy</h3>
-            <p>Let's explore some of the key advantages:</p>
-            <ol className="list-decimal ml-6 space-y-2">
-              <li>
-                <strong>Breakfast to Dinner from 6AM to 11PM</strong> Verify your
-                PNR and get the best meals for you, your kids or your elderly
-                parents – delivered to your train seat from 6AM to 11PM across
-                100+ railway stations.
-              </li>
-              <li>
-                <strong>Order to your Train Seat at 100+ Railway Stations</strong>{" "}
-                Swiggy has partnered with IRCTC to deliver Food on Train at
-                Vijayawada, Kanpur, Bhopal, Nagpur, and a hundred more stations.
-              </li>
-              <li>
-                <strong>Delivery to your Train Seat</strong> Skip crowded
-                platforms to buy food. Search “IRCTC” on the Swiggy App, enter
-                PNR and place your order. Get up to 60% off on meals that will
-                be delivered to your train seat.
-              </li>
-              <li>
-                <strong>Variety of Cuisines and Dishes</strong> Craving Biryani
-                or Pizza, Idlis or Noodles? Be it{" "}
-                <u>North Indian</u>, <u>South Indian</u>, <u>Chinese</u>, or{" "}
-                <u>Continental</u> – explore the widest menu options only on the
-                Swiggy App.
-              </li>
-              <li>
-                <strong>Assured Delivery, or Full Refund</strong> Rest assured
-                with Swiggy’s promise of full refund if we are not able to
-                deliver food to you. You can also cancel your order if meal
-                preparation hasn’t started.
-              </li>
+            <ol className="list-decimal ml-5 space-y-2 text-gray-700">
+              <li><strong>Breakfast to Dinner:</strong> Meals from 6AM–11PM delivered to your seat.</li>
+              <li><strong>100+ Railway Stations:</strong> Swiggy partners with IRCTC for wide coverage.</li>
+              <li><strong>Delivery to Seat:</strong> Order through the app, get food at your train seat.</li>
+              <li><strong>Wide Cuisines:</strong> North, South, Chinese, Continental and more.</li>
+              <li><strong>Refund Policy:</strong> Full refund if delivery fails or is cancelled early.</li>
             </ol>
           </div>
 
-          {/* How To Use Section */}
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold">How to Use Swiggy for Railway Food Delivery on Trains?</h3>
-            <p>Here are the simple steps to follow to place your order through the App:</p>
-
-            <p><strong>Step 1:</strong> Search “Train’’ in the Swiggy app and enter your PNR to proceed.</p>
-            <p><strong>Step 2:</strong> Select a restaurant at the selected station and add items to your cart.</p>
-            <p><strong>Step 3:</strong> Place your order, make payment and track your delivery live in the app.</p>
-
-            <p>Now enjoy tasty food delivered right to your train seat in partnership with IRCTC.</p>
+          {/* How to Use Card */}
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
+            <h3 className="text-xl font-bold mb-2">How to Use Swiggy for Railway Food Delivery</h3>
+            <p><strong>Step 1:</strong> Search “Train” and enter your PNR in the Swiggy app.</p>
+            <p><strong>Step 2:</strong> Select a restaurant and add items you want.</p>
+            <p><strong>Step 3:</strong> Place the order and track the delivery in real-time.</p>
           </div>
 
-          {/* Menu Options */}
-          <div>
-            <h3 className="text-xl font-bold">Menu Options for Train Food Delivery</h3>
-            <ol className="list-decimal ml-6 space-y-1">
-              <li>North Indian Cuisine</li>
-              <li>South Indian Cuisine</li>
-              <li>Chinese Cuisine</li>
-              <li>Continental Cuisine</li>
-              <li>Snacks and Beverages</li>
-              <li>Italian Cuisine</li>
-              <li>Mexican Cuisine</li>
-              <li>Mediterranean Cuisine</li>
-              <li>Thai Cuisine</li>
-              <li>Mughlai Cuisine</li>
-            </ol>
-          </div>
-
-          {/* FAQ Section */}
-          <div>
-            <h3 className="text-xl font-bold text-center mb-4">FAQ'S</h3>
-            <div className="border border-gray-300 rounded-xl p-4 space-y-2">
-              {faqData.map((faq, index) => (
-                <div key={index} className="border-b last:border-none pb-2">
-                  <button
-                    onClick={() => toggleFaq(index)}
-                    className="w-full flex justify-between items-center text-left font-medium"
-                  >
-                    {faq.q}
-                    <span className="text-xl">
-                      {openFaqIndex === index ? "▲" : "▼"}
-                    </span>
-                  </button>
-                  {openFaqIndex === index && (
-                    <p className="mt-2 text-gray-700">{faq.a}</p>
-                  )}
-                </div>
-              ))}
+          {/* Menu Options Card */}
+          <div className="bg-white shadow-md rounded-2xl p-6">
+            <h3 className="text-xl font-bold mb-2">Menu Options for Train Food Delivery</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-gray-700">
+              <p>North Indian Cuisine</p>
+              <p>South Indian Cuisine</p>
+              <p>Chinese Cuisine</p>
+              <p>Continental Cuisine</p>
+              <p>Snacks & Beverages</p>
+              <p>Italian Cuisine</p>
+              <p>Mexican Cuisine</p>
+              <p>Mediterranean Cuisine</p>
+              <p>Thai Cuisine</p>
+              <p>Mughlai Cuisine</p>
             </div>
           </div>
 
-          {/* Train List */}
-          <div>
-            <h3 className="text-xl font-bold">Top trains on which Swiggy is delivering</h3>
-            <ul className="list-disc ml-6 space-y-1">
-              <li>Order food in KONARK EXPRESS – 11019</li>
-              <li>Order food in JYOTI EXPRESS – 12565</li>
-              <li>Order food in MANGALA LDWEEP EXP – 12602</li>
-              <li>Order food in MAS HYB SF EXP – 12603</li>
-              <li>Order food in NIZAMUDDIN EXPRESS – 12615</li>
-              <li>Order food in TAMILNADU EXP – 12622</li>
-              <li>Order food in KERALA EXPRESS – 12625</li>
-              <li>Order food in NAVJEEVAN EXP – 12655</li>
-              <li>Order food in HUSSAIN SAGAR – 12702</li>
-              <li>Order food in FALAKNUMA EXP – 12704</li>
-              <li>Order food in GODAVARI EXP – 12728</li>
-              <li>Order food in HAZRAT NIZAMUDDIN EXPRESS – 12862</li>
-              <li>Order food in CAPE MUMBAI EXPRESS – 16382</li>
-              <li>Order food in BANGALORE EXPRESS – 16525</li>
-            </ul>
+          {/* Install App Section */}
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-2">
+            <h3 className="text-xl font-bold">Get Food on Train! Install Swiggy App</h3>
+            <p className="text-gray-700">
+              Search “Train”, enter PNR & order your food. Experience fresh meals delivered without leaving your seat.
+            </p>
+           <div className="flex flex-col gap-2">
+            <a href="#" className="block text-blue-600 underline font-semibold">Download Swiggy for iOS</a>
+            <a href="#" className="block text-blue-600 underline font-semibold">Download Swiggy for Android</a>
+           </div>
           </div>
 
-          {/* Stations List */}
-          <div>
-            <h3 className="text-xl font-bold">Top stations on which Swiggy is delivering</h3>
-            <ul className="list-disc ml-6 space-y-1">
-              <li>Order food at Surat railway station</li>
-              <li>Order food at Nagpur railway station</li>
-              <li>Order food at Vadodara railway station</li>
-              <li>Order food at Bhopal railway station</li>
-              <li>Order food at Vijayawada railway station</li>
-              <li>Order food at Kanpur railway station</li>
-              <li>Order food at Delhi railway station</li>
-              {/* Add more stations as needed */}
-            </ul>
+          {/* FAQ Card */}
+          <div className="bg-white shadow-md rounded-2xl p-6">
+            <h3 className="text-xl font-bold mb-4 text-center">FAQ's</h3>
+            {faqData.map((faq, index) => (
+              <div key={index} className="border-b last:border-none py-3">
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full flex justify-between items-center text-left font-medium"
+                >
+                  {faq.q}
+                  <span>{openFaqIndex === index ? "⏡" : "⏡"}</span>
+                </button>
+                {openFaqIndex === index && (
+                  <p className="mt-2 text-gray-700">{faq.a}</p>
+                )}
+              </div>
+            ))}
           </div>
+
+       {/* Train List Card */}
+<div className="bg-white shadow-md rounded-2xl p-6">
+  <h3 className="text-xl font-bold mb-2">Top Trains on which Swiggy is Delivering</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+    {[
+      "Order Food at KONARK EXPRESS – 11019",
+      "Order Food at JYOTI EXPRESS – 12565",
+      "Order Food at MANGALA LDWEEP EXP – 12602",
+      "Order Food at MAS HYB SF EXP – 12603",
+      "Order Food at NIZAMUDDIN EXPRESS – 12615",
+      "Order Food at TAMILNADU EXP – 12622",
+      "Order Food at KERALA EXPRESS – 12625",
+      "Order Food at NAVJEEVAN EXP – 12655",
+      "Order Food at HUSSAIN SAGAR – 12702",
+      "Order Food at FALAKNUMA EXP – 12704",
+      "Order Food at GODAVARI EXP – 12728",
+      "Order Food at HAZRAT NIZAMUDDIN EXP – 12862",
+      "Order Food at CAPE MUMBAI EXPRESS – 16382",
+      "Order Food at BANGALORE EXPRESS – 16525",
+    ].map((item, idx) => (
+      <div key={idx} className="border border-gray-300 rounded-lg p-3 hover:bg-orange-50 transition">
+        {item}
+      </div>
+    ))}
+  </div>
+</div>
+
+
+        {/* Station List Card */}
+<div className="bg-white shadow-md rounded-2xl p-6">
+  <h3 className="text-xl font-bold mb-2">Top Stations on which Swiggy is Delivering</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+    {[
+      "Order Food at Surat railway station",
+      "Order Food at Nagpur railway station",
+      "Order Food at Vadodara railway station",
+      "Order Food at Bhopal railway station",
+      "Order Food at Vijayawada railway station",
+      "Order Food at Kanpur railway station",
+      "Order Food at Delhi railway station",
+    ].map((item, idx) => (
+      <div key={idx} className="border border-gray-300 rounded-lg p-3 hover:bg-orange-50 transition">
+        {item}
+      </div>
+    ))}
+  </div>
+</div>
 
           {/* Show Less Button */}
           <div className="text-center">
             <button
               onClick={toggleContent}
-              className="mt-6 px-8 py-3 border-2 border-orange-500 text-orange-500 font-semibold rounded-xl hover:bg-orange-100 transition-all duration-200 inline-flex items-center gap-2"
+              className="mt-4 px-8 py-3 border-2 border-red-500 text-red-500 font-semibold rounded-xl hover:bg-red-100 transition-all duration-200"
             >
-              Show Less <span>▲</span>
+              Show Less ▲
             </button>
           </div>
-
         </div>
       )}
     </div>
