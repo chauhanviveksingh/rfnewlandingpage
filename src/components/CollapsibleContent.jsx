@@ -55,7 +55,7 @@ const CollapsibleContent = () => {
         
           {/* Benefits Card */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
-            <h3 className="text-xl font-bold mb-2">Benefits of Ordering Food on Train Using Swiggy</h3>
+            <h3 className="text-xl font-bold mb-2">Benefits of Ordering Food on Train Using RailFeast</h3>
             <ol className="list-decimal ml-5 space-y-2 text-gray-700">
               <li><strong>Breakfast to Dinner:</strong> Meals from 6AM–11PM delivered to your seat.</li>
               <li><strong>100+ Railway Stations:</strong> Swiggy partners with IRCTC for wide coverage.</li>
@@ -67,7 +67,7 @@ const CollapsibleContent = () => {
 
           {/* How to Use Card */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
-            <h3 className="text-xl font-bold mb-2">How to Use Swiggy for Railway Food Delivery</h3>
+            <h3 className="text-xl font-bold mb-2">How to Use RailFeast for Railway Food Delivery</h3>
             <p><strong>Step 1:</strong> Search “Train” and enter your PNR in the Swiggy app.</p>
             <p><strong>Step 2:</strong> Select a restaurant and add items you want.</p>
             <p><strong>Step 3:</strong> Place the order and track the delivery in real-time.</p>
@@ -92,13 +92,13 @@ const CollapsibleContent = () => {
 
           {/* Install App Section */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-2">
-            <h3 className="text-xl font-bold">Get Food on Train! Install Swiggy App</h3>
+            <h3 className="text-xl font-bold">Get Food on Train! Install RailFeast App</h3>
             <p className="text-gray-700">
               Search “Train”, enter PNR & order your food. Experience fresh meals delivered without leaving your seat.
             </p>
            <div className="flex flex-col gap-2">
-            <a href="#" className="block text-blue-600 underline font-semibold">Download Swiggy for iOS</a>
-            <a href="#" className="block text-blue-600 underline font-semibold">Download Swiggy for Android</a>
+            <a href="#" className="block text-blue-600 underline font-semibold">Download RailFeast for iOS</a>
+            <a href="#" className="block text-blue-600 underline font-semibold">Download RailFeast for Android</a>
            </div>
           </div>
 
@@ -123,7 +123,7 @@ const CollapsibleContent = () => {
 
        {/* Train List Card */}
 <div className="bg-white shadow-md rounded-2xl p-6">
-  <h3 className="text-xl font-bold mb-2">Top Trains on which Swiggy is Delivering</h3>
+  <h3 className="text-xl font-bold mb-2">Top Trains on which RailFeast is Delivering</h3>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
     {[
       "Order Food at KONARK EXPRESS – 11019",
@@ -151,7 +151,7 @@ const CollapsibleContent = () => {
 
         {/* Station List Card */}
 <div className="bg-white shadow-md rounded-2xl p-6">
-  <h3 className="text-xl font-bold mb-2">Top Stations on which Swiggy is Delivering</h3>
+  <h3 className="text-xl font-bold mb-2">Top Stations on which RailFeast is Delivering</h3>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
     {[
       "Order Food at Surat railway station",
@@ -175,7 +175,7 @@ const CollapsibleContent = () => {
               onClick={toggleContent}
               className="mt-4 px-8 py-3 border-2 border-red-500 text-red-500 font-semibold rounded-xl hover:bg-red-100 transition-all duration-200"
             >
-              Show Less ▲
+              Show Less ⌃
             </button>
           </div>
         </div>
