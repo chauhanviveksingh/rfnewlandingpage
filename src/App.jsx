@@ -1,11 +1,19 @@
 import React, { useState, memo } from "react";
 import { CalendarDays } from "lucide-react";
+
 import HomeImg from "./assets/home_img.webp"; // Importing the home image
 
 // The previous image import was causing a compilation error.
 // We've replaced it with a valid placeholder image URL to fix the issue.
 // You can replace this URL with your desired image URL later.
 const homeImgUrl = HomeImg;
+
+// Helper function to get the start of the day for a given date
+const startOfDay = (d) => {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+};
 
 // Helper function to format date parts
 const formatDateParts = (date) => {
@@ -15,8 +23,8 @@ const formatDateParts = (date) => {
   return { month, day, weekday };
 };
 
-// Memoized TabContent component to prevent unnecessary re-renders and fix the cursor issue.
-const TabContent = memo(({ activeTab, pnrNumber, setPnrNumber, stationInput, setStationInput, trainNumber, setTrainNumber, stationCode, setStationCode, commonButtonClass }) => {
+// Memoized TabContent component to prevent unnecessary re-renders.
+const TabContent = memo(({ activeTab, pnrNumber, setPnrNumber, stationInput, setStationInput, trainNumber, setTrainNumber, stationCode, setStationCode }) => {
   // Handlers for input validation
   const handlePnrChange = (e) => {
     const v = e.target.value;
@@ -39,109 +47,147 @@ const TabContent = memo(({ activeTab, pnrNumber, setPnrNumber, stationInput, set
     <div className="mt-6">
       {/* PNR Tab Content */}
       <div className={`${activeTab === "By PNR" ? "" : "hidden"}`}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="Enter PNR Number"
-              value={pnrNumber}
-              onChange={handlePnrChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
-            />
-          </div>
-          <button
-            onClick={() => alert("Searching by PNR: " + pnrNumber)}
-            className={commonButtonClass}
-          >
-            Let's Go
-          </button>
+        <div className="grid grid-cols-1 gap-4">
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            placeholder="Enter PNR Number"
+            value={pnrNumber}
+            onChange={handlePnrChange}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+          />
         </div>
       </div>
 
       {/* Station Tab Content */}
       <div className={`${activeTab === "By Station" ? "" : "hidden"}`}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <input
-              type="text"
-              placeholder="Enter Station Name (e.g. New Delhi)"
-              value={stationInput}
-              onChange={handleStationInputChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
-            />
-          </div>
-          <button
-            onClick={() => alert("Searching by Station: " + stationInput)}
-            className={commonButtonClass}
-          >
-            Let's Go
-          </button>
+        <div className="grid grid-cols-1 gap-4">
+          <input
+            type="text"
+            placeholder="Enter Station Name (e.g. New Delhi)"
+            value={stationInput}
+            onChange={handleStationInputChange}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+          />
         </div>
       </div>
 
       {/* Train Tab Content */}
       <div className={`${activeTab === "By Train No" ? "" : "hidden"}`}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="Enter Train Number"
-              value={trainNumber}
-              onChange={handleTrainNumberChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
-            />
-            <input
-              type="text"
-              placeholder="Enter Station Name (e.g. New Delhi)"
-              value={stationCode}
-              onChange={handleStationCodeChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
-            />
-          </div>
-          <button
-            onClick={() =>
-              alert(
-                "Searching by Train: " + trainNumber + " at station " + stationCode
-              )
-            }
-            className={commonButtonClass}
-          >
-            Let's Go
-          </button>
+        <div className="grid grid-cols-1 gap-4">
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            placeholder="Enter Train Number"
+            value={trainNumber}
+            onChange={handleTrainNumberChange}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+          />
+          <input
+            type="text"
+            placeholder="Enter Station Code (e.g. NDLS)"
+            value={stationCode}
+            onChange={handleStationCodeChange}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+          />
         </div>
       </div>
     </div>
   );
 });
 
-const App = () => {
-  // State to manage the active tab (PNR, Station, or Train)
-  const [activeTab, setActiveTab] = useState("By PNR");
+// Full Calendar Component
+const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate.getFullYear(), selectedDate.getMonth()));
+  const pastSelectableThreshold = new Date();
+  pastSelectableThreshold.setDate(pastSelectableThreshold.getDate() - 3);
+  const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
+  const firstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Inputs state
+  const renderDays = () => {
+    const totalDays = daysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+    const firstDay = firstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+    const daysArray = [];
+
+    for (let i = 0; i < firstDay; i++) {
+      daysArray.push(<div key={`empty-${i}`} className="w-10 h-10"></div>);
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      const isSelected = startOfDay(date).getTime() === startOfDay(selectedDate).getTime();
+      const isToday = startOfDay(date).getTime() === startOfDay(new Date()).getTime();
+      const isUnselectablePastDate = startOfDay(date).getTime() < startOfDay(pastSelectableThreshold).getTime();
+
+      daysArray.push(
+        <div
+          key={day}
+          onClick={isUnselectablePastDate ? null : () => {
+            setSelectedDate(date);
+            onClose();
+          }}
+          className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium
+            ${isSelected ? 'bg-red-600 text-white' : 'hover:bg-gray-200 text-gray-800'}
+            ${isToday && !isSelected ? 'border border-red-600 text-red-600' : ''}
+            ${isUnselectablePastDate ? 'text-gray-300 cursor-not-allowed hover:bg-transparent' : ''}
+          `}
+        >
+          {day}
+        </div>
+      );
+    }
+    return daysArray;
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
+  };
+
+  const prevMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1));
+  };
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
+      <div className="flex justify-between items-center mb-4">
+        <button onClick={prevMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
+          &lt;
+        </button>
+        <span className="text-lg font-bold">
+          {currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+        </span>
+        <button onClick={nextMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
+          &gt;
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-2 text-center text-sm font-semibold text-gray-500">
+        {dayNames.map(day => <div key={day}>{day}</div>)}
+      </div>
+      <div className="grid grid-cols-7 gap-2 text-center mt-2">
+        {renderDays()}
+      </div>
+    </div>
+  );
+});
+
+// Main App component containing all functionality
+const App = () => {
+  // --- App State (for top section) ---
+  const [activeTab, setActiveTab] = useState("By PNR");
   const [pnrNumber, setPnrNumber] = useState("");
   const [stationInput, setStationInput] = useState("");
   const [trainNumber, setTrainNumber] = useState("");
   const [stationCode, setStationCode] = useState("");
 
-  // Helper function to get the start of the day for a given date
-  const startOfDay = (d) => {
-    const x = new Date(d);
-    x.setHours(0, 0, 0, 0);
-    return x;
-  };
-
-  // Calendar state and visibility state
   const today = startOfDay(new Date());
-  const [selectedDate, setSelectedDate] = useState(today); // Date object
+  const [selectedDate, setSelectedDate] = useState(today);
   const [showFullCalendar, setShowFullCalendar] = useState(false);
 
-  // Build the small 4-day list (today + next 3 days)
-  const cardDates = [0, 1, 2, 3].map((offset) => {
+  // Build the small 6-day list (today + next 5 days) as requested
+  const cardDates = Array.from({ length: 6 }, (_, offset) => {
     const d = new Date(today);
     d.setDate(d.getDate() + offset);
     return {
@@ -151,10 +197,11 @@ const App = () => {
     };
   });
 
-  // Compute which date card is active
   const selectedIndex = cardDates.findIndex(
     (cd) => cd.date.toDateString() === startOfDay(selectedDate).toDateString()
   );
+
+  const commonButtonClass = "col-span-1 h-16 md:h-full w-full bg-red-600 text-white font-bold text-xl rounded-xl shadow-md hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2";
 
   const Tabs = () => (
     <div className="flex justify-between border-b border-gray-200">
@@ -173,91 +220,6 @@ const App = () => {
       ))}
     </div>
   );
-
-  const commonButtonClass =
-    "col-span-1 h-16 md:h-full bg-red-600 text-white font-bold text-xl rounded-xl shadow-md hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2";
-
-  // New Full Calendar Component
-  const FullCalendar = ({ selectedDate, setSelectedDate, onClose }) => {
-    const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate.getFullYear(), selectedDate.getMonth()));
-
-    // Set a threshold for past selectable dates (3 days before today)
-    const pastSelectableThreshold = new Date();
-    pastSelectableThreshold.setDate(pastSelectableThreshold.getDate() - 3);
-
-    const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
-    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    const renderDays = () => {
-      const totalDays = daysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
-      const firstDay = firstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
-      const daysArray = [];
-
-      // Add leading empty cells for alignment
-      for (let i = 0; i < firstDay; i++) {
-        daysArray.push(<div key={`empty-${i}`} className="w-10 h-10"></div>);
-      }
-
-      // Add day cells
-      for (let day = 1; day <= totalDays; day++) {
-        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        const isSelected = startOfDay(date).getTime() === startOfDay(selectedDate).getTime();
-        const isToday = startOfDay(date).getTime() === startOfDay(new Date()).getTime();
-        
-        // Determine if the date is in the past and not selectable
-        const isUnselectablePastDate = startOfDay(date).getTime() < startOfDay(pastSelectableThreshold).getTime();
-        
-        daysArray.push(
-          <div
-            key={day}
-            onClick={isUnselectablePastDate ? null : () => {
-              setSelectedDate(date);
-              onClose(); // Close the calendar after selection
-            }}
-            className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium
-              ${isSelected ? 'bg-red-600 text-white' : 'hover:bg-gray-200 text-gray-800'}
-              ${isToday && !isSelected ? 'border border-red-600 text-red-600' : ''}
-              ${isUnselectablePastDate ? 'text-gray-300 cursor-not-allowed hover:bg-transparent' : ''}
-            `}
-          >
-            {day}
-          </div>
-        );
-      }
-      return daysArray;
-    };
-
-    const nextMonth = () => {
-      setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
-    };
-
-    const prevMonth = () => {
-      setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1));
-    };
-
-    return (
-      <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
-        <div className="flex justify-between items-center mb-4">
-          <button onClick={prevMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
-            &lt;
-          </button>
-          <span className="text-lg font-bold">
-            {currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
-          </span>
-          <button onClick={nextMonth} className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none">
-            &gt;
-          </button>
-        </div>
-        <div className="grid grid-cols-7 gap-2 text-center text-sm font-semibold text-gray-500">
-          {dayNames.map(day => <div key={day}>{day}</div>)}
-        </div>
-        <div className="grid grid-cols-7 gap-2 text-center mt-2">
-          {renderDays()}
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans flex flex-col items-center">
@@ -300,11 +262,10 @@ const App = () => {
           setTrainNumber={setTrainNumber}
           stationCode={stationCode}
           setStationCode={setStationCode}
-          commonButtonClass={commonButtonClass}
         />
 
-        {/* Date picker + 4-date cards */}
-        <div className="mt-8">
+        {/* Date picker + 6-date cards */}
+        <div className="mt-8 relative">
           <div className="flex items-center space-x-4 cursor-pointer" onClick={() => setShowFullCalendar(!showFullCalendar)}>
             <h3 className="text-xl font-bold">Boarding Date</h3>
             <CalendarDays size={24} className="text-red-600" />
@@ -330,9 +291,31 @@ const App = () => {
             ))}
           </div>
 
+          {/* This is the new position for the calendar, above the button */}
           {showFullCalendar && (
-            <FullCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} onClose={() => setShowFullCalendar(false)} />
+            <div className="absolute bottom-full left-0 right-0 mb-4 z-20">
+              <FullCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} onClose={() => setShowFullCalendar(false)} />
+            </div>
           )}
+        </div>
+
+        {/* "Let's Go" button now placed below the date picker */}
+        <div className="mt-10">
+            <button
+                onClick={() => {
+                    const params = {
+                        pnr: pnrNumber,
+                        station: stationInput,
+                        train: trainNumber,
+                        stationCode: stationCode,
+                        date: selectedDate.toDateString()
+                    };
+                    alert("Searching with: " + JSON.stringify(params, null, 2));
+                }}
+                className={commonButtonClass}
+            >
+                Let's Go
+            </button>
         </div>
       </div>
 
