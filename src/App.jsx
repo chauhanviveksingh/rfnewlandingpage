@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { CalendarDays } from "lucide-react";
 
 import HomeImg from "./assets/home_img.webp"; // Importing the home image
@@ -8,7 +8,6 @@ import HomeImg from "./assets/home_img.webp"; // Importing the home image
 // You can replace this URL with your desired image URL later.
 const homeImgUrl = HomeImg;
 
-// Helper function to get the start of the day for a given date
 const startOfDay = (d) => {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
@@ -185,6 +184,33 @@ const App = () => {
   const today = startOfDay(new Date());
   const [selectedDate, setSelectedDate] = useState(today);
   const [showFullCalendar, setShowFullCalendar] = useState(false);
+  const [calendarPosition, setCalendarPosition] = useState('bottom');
+
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (datePickerRef.current) {
+        const rect = datePickerRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const calendarHeight = 400; // Approximate height of the calendar component
+        
+        // If the bottom of the date picker is close to the bottom of the viewport
+        if (rect.bottom + calendarHeight > viewportHeight) {
+          setCalendarPosition('top');
+        } else {
+          setCalendarPosition('bottom');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check on component mount
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [showFullCalendar]); // Re-calculate when the calendar opens or closes
 
   // Build the small 6-day list (today + next 5 days) as requested
   const cardDates = Array.from({ length: 6 }, (_, offset) => {
@@ -222,7 +248,7 @@ const App = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans flex flex-col items-center">
+    <div className="h-auto bg-gray-100 font-sans flex flex-col items-center">
       {/* Tailwind CSS CDN script for styling */}
       <script src="https://cdn.tailwindcss.com"></script>
       {/* Custom styles for the app */}
@@ -265,10 +291,13 @@ const App = () => {
         />
 
         {/* Date picker + 6-date cards */}
-        <div className="mt-8 relative">
+        <div className="mt-8 relative" ref={datePickerRef}>
           <div className="flex items-center space-x-4 cursor-pointer" onClick={() => setShowFullCalendar(!showFullCalendar)}>
             <h3 className="text-xl font-bold">Boarding Date</h3>
             <CalendarDays size={24} className="text-red-600" />
+            <span className="text-md font-medium text-gray-700">
+              {selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
           </div>
 
           <div className="mt-4 flex space-x-2 overflow-x-auto pb-2 -mx-4 px-4 sm:px-0">
@@ -291,10 +320,15 @@ const App = () => {
             ))}
           </div>
 
-          {/* This is the new position for the calendar, above the button */}
           {showFullCalendar && (
-            <div className="absolute bottom-full left-0 right-0 mb-4 z-20">
-              <FullCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} onClose={() => setShowFullCalendar(false)} />
+            <div
+              className={`absolute left-0 mt-2 z-20 ${calendarPosition === 'top' ? 'bottom-full mb-2' : 'top-full'}`}
+            >
+              <FullCalendar
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                onClose={() => setShowFullCalendar(false)}
+              />
             </div>
           )}
         </div>
@@ -310,7 +344,8 @@ const App = () => {
                         stationCode: stationCode,
                         date: selectedDate.toDateString()
                     };
-                    alert("Searching with: " + JSON.stringify(params, null, 2));
+                    // Replaced alert() with console.log() to prevent breaking the app in the Canvas environment
+                    console.log("Searching with: ", params);
                 }}
                 className={commonButtonClass}
             >
