@@ -1,162 +1,92 @@
-import React from 'react';
+import React from "react";
+import { Train, UtensilsCrossed, ShoppingCart, Coffee } from "lucide-react";
 
-// New React component for the "How It Works" section with a different design.
-const HowItWorksV2 = () => {
-    // Data for each step, including custom SVG icons.
-    const steps = [
-        {
-            title: "Enter PNR/Train",
-            description: "Provide your PNR or train number and select your boarding date.",
-            icon: (
-                <img
-                    src="https://placehold.co/64x64/4F46E5/ffffff?text=Train"
-                    alt="Train Icon"
-                    className="w-16 h-16 rounded-full"
-                />
-            )
-        },
-        {
-            title: "Choose Your Food",
-            description: "Browse a variety of delicious meals from FSSAI-approved restaurants.",
-            icon: (
-                <img
-                    src="https://placehold.co/64x64/F97316/ffffff?text=Food"
-                    alt="Food Icon"
-                    className="w-16 h-16 rounded-full"
-                />
-            )
-        },
-        {
-            title: "Place Your Order",
-            description: "Finalize your order with convenient online payment or Cash on Delivery.",
-            icon: (
-                <img
-                    src="https://placehold.co/64x64/34D399/ffffff?text=Order"
-                    alt="Order Icon"
-                    className="w-16 h-16 rounded-full"
-                />
-            )
-        },
-        {
-            title: "Get Food On Your Seat",
-            description: "Your hot, fresh meal will be delivered directly to your train seat.",
-            icon: (
-                <img
-                    src="https://placehold.co/64x64/EF4444/ffffff?text=Delivery"
-                    alt="Delivery Icon"
-                    className="w-16 h-16 rounded-full"
-                />
-            )
-        }
-    ];
+const HowItWorksV3 = () => {
+  const steps = [
+    {
+      title: "Enter PNR/Train",
+      description: "Provide your PNR or train number and select your boarding date.",
+      icon: <Train size={48} strokeWidth={2.5} />,
+    },
+    {
+      title: "Choose Your Food",
+      description: "Browse a variety of delicious meals from FSSAI-approved restaurants.",
+      icon: <UtensilsCrossed size={48} strokeWidth={2.5} />,
+    },
+    {
+      title: "Place Your Order",
+      description: "Finalize your order with convenient online payment or Cash on Delivery.",
+      icon: <ShoppingCart size={48} strokeWidth={2.5} />,
+    },
+    {
+      title: "Get Food On Your Seat",
+      description: "Your hot, fresh meal will be delivered directly to your train seat.",
+      icon: <Coffee size={48} strokeWidth={2.5} />,
+    },
+  ];
 
-    // SVG icon for the arrow with a new animation
-    const ArrowIcon = () => (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-300 transform rotate-90 lg:rotate-0 animate-pulse-horizontal lg:animate-pulse-vertical" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-    );
+  return (
+    <section className="bg-gradient-to-r from-white to-white py-16 px-6 lg:px-12 font-sans">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
+          How It Works
+        </h2>
+        <p className="mt-3 text-lg text-gray-600">
+          Order fresh food on the go in just a few simple steps
+        </p>
+      </div>
 
-    return (
-        <section className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 font-sans">
-            {/* Tailwind CSS CDN script for styling */}
-            <script src="https://cdn.tailwindcss.com"></script>
-            {/* Custom styles and animations */}
-            <style>
-                {`
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-                body {
-                    font-family: 'Inter', sans-serif;
-                }
-
-                @keyframes slideInUp {
-                    from {
-                        transform: translateY(20px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-
-                .step-card {
-                    animation: slideInUp 0.6s ease-out forwards;
-                }
-
-                @keyframes pulse-horizontal {
-                    0%, 100% {
-                        transform: translateX(0);
-                    }
-                    50% {
-                        transform: translateX(5px);
-                    }
-                }
-
-                @keyframes pulse-vertical {
-                    0%, 100% {
-                        transform: translateY(0) rotate(90deg);
-                    }
-                    50% {
-                        transform: translateY(5px) rotate(90deg);
-                    }
-                }
-
-                .animate-pulse-horizontal {
-                    animation: pulse-horizontal 1.5s infinite;
-                }
-                .animate-pulse-vertical {
-                    animation: pulse-vertical 1.5s infinite;
-                }
-                `}
-            </style>
-            <div className="max-w-7xl mx-auto text-center">
-                <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    Get food in three easy steps
-                </h2>
-                <p className="mt-4 text-lg text-gray-600">
-                    Order delicious meals from FSSAI approved restaurants across India.
-                </p>
+      {/* Desktop timeline */}
+      <div className="hidden lg:grid grid-cols-4 gap-8 mt-12 relative">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className="relative flex flex-col items-center text-center"
+          >
+            {/* Connector line */}
+            {index < steps.length - 1 && (
+              <div className="absolute top-14 left-full w-full h-1 bg-gray-200"></div>
+            )}
+            {/* Step Circle with bigger size */}
+            <div className="flex items-center justify-center w-28 h-28 rounded-full bg-white text-red-600 shadow-lg mb-6 z-10">
+              {step.icon}
             </div>
+            {/* Step Details */}
+            <h3 className="text-lg font-semibold text-gray-900">{step.title}</h3>
+            <p className="mt-2 text-sm text-gray-600">{step.description}</p>
+          </div>
+        ))}
+      </div>
 
-            <div className="mt-12 flex flex-col items-center lg:flex-row lg:justify-center lg:gap-8">
-                {steps.map((step, index) => (
-                    <React.Fragment key={index}>
-                        <div
-                            style={{ animationDelay: `${index * 0.2}s` }}
-                            className="step-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col items-center text-center w-full max-w-sm lg:w-auto my-4 lg:my-0"
-                        >
-                            <div className="flex-shrink-0">
-                                <div className="h-20 w-20 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
-                                    {step.icon}
-                                </div>
-                            </div>
-                            <div className="mt-4">
-                                <h3 className="text-xl font-bold text-gray-900">{step.title}</h3>
-                                <p className="mt-2 text-base text-gray-500">
-                                    {step.description}
-                                </p>
-                            </div>
-                        </div>
-                        {index < steps.length - 1 && (
-                            <div className="flex-shrink-0 text-gray-400 my-4 lg:my-0">
-                                <ArrowIcon />
-                            </div>
-                        )}
-                    </React.Fragment>
-                ))}
+      {/* Mobile stacked cards */}
+      <div className="lg:hidden mt-12 space-y-6">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-xl p-6 flex items-center gap-4 hover:shadow-lg transition"
+          >
+            {/* Bigger icon circle */}
+            <div className="flex items-center justify-center w-50 h-20 rounded-full bg-white text-red-600 shadow-md">
+              {step.icon}
             </div>
-        </section>
-    );
+            <div>
+              <h3 className="text-base font-bold text-gray-800">{step.title}</h3>
+              <p className="text-sm text-gray-800">{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 };
 
-// Main App component to render the new section
+// Main app wrapper
 const App = () => {
   return (
     <div className="h-auto bg-gray-100 flex items-center justify-center p-4">
-      <HowItWorksV2 />
+      <HowItWorksV3 />
     </div>
-  )
-}
+  );
+};
 
 export default App;
