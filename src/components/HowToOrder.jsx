@@ -1,27 +1,27 @@
 import React from "react";
-import { Train, UtensilsCrossed, ShoppingCart, Coffee } from "lucide-react";
+import { Train, Hamburger, ShoppingCart, Armchair } from "lucide-react";
 
 const HowItWorksV3 = () => {
   const steps = [
     {
       title: "Enter PNR/Train",
       description: "Provide your PNR or train number and select your boarding date.",
-      icon: <Train size={48} strokeWidth={2.5} />,
+      icon: <Train size={48} strokeWidth={1.5} />,
     },
     {
       title: "Choose Your Food",
       description: "Browse a variety of delicious meals from FSSAI-approved restaurants.",
-      icon: <UtensilsCrossed size={48} strokeWidth={2.5} />,
+      icon: <Hamburger size={48} strokeWidth={1.5} />,
     },
     {
       title: "Place Your Order",
       description: "Finalize your order with convenient online payment or Cash on Delivery.",
-      icon: <ShoppingCart size={48} strokeWidth={2.5} />,
+      icon: <ShoppingCart size={48} strokeWidth={1.5} />,
     },
     {
       title: "Get Food On Your Seat",
       description: "Your hot, fresh meal will be delivered directly to your train seat.",
-      icon: <Coffee size={48} strokeWidth={2.5} />,
+      icon: <Armchair size={48} strokeWidth={1.5} />,
     },
   ];
 

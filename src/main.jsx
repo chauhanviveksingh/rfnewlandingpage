@@ -6,6 +6,7 @@ import SeoCompo from './components/FeatureList.jsx'
 import CollapsibleContent from './components/CollapsibleContent';
 import HowToOrder from './components/HowToOrder.jsx';
 import SpecialOffers from './components/SpecialOffers.jsx';
+import GroupOrder from './components/GroupOrder.jsx';
 
 
 
@@ -13,8 +14,10 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
     <SeoCompo />
-    <CollapsibleContent />
     <HowToOrder />
     <SpecialOffers/>
+    <GroupOrder/>
+    <CollapsibleContent />
+
   </StrictMode>
 )

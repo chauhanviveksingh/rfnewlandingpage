@@ -54,47 +54,50 @@ export default function SpecialOffersSlider({ coupons: inputCoupons = [] }) {
   const [copiedIdx, setCopiedIdx] = useState(null);
   const [isInteracting, setIsInteracting] = useState(false);
 
-  const coupons =
-    inputCoupons.length > 0
-      ? inputCoupons
-      : [
-          {
-            title: "Flat 33% Off",
-            code: "RFEAST33",
-            description: "Get Flat 33% Off on prepaid orders. Min ₹99.",
-      
-          },
-          {
-            title: "Flat 20% Off",
-            code: "RFEAST20",
-            description: "Flat 20% Off on prepaid orders. Min ₹999.",
-          },
-          {
-            title: "Flat 15% Off",
-            code: "RFEAST15",
-            description: "Flat 15% Off on prepaid orders. Min ₹499.",
-          },
-          {
-            title: "Flat 25% Off",
-            code: "RFEAST25",
-            description: "Flat 25% Off on prepaid orders. Min ₹2499.",
-          },
-          {
-            title: "Flat 30% Off",
-            code: "RFEAST30",
-            description: "Flat 30% Off on prepaid orders. Min ₹4999.",
-          },
-          {
-            title: "Welcome Discount",
-            code: "SAVE20",
-            description: "20% off on first order",
-          },
-          {
-            title: "Free Shipping",
-            code: "FREESHIP",
-            description: "Free shipping over ₹50.",
-          },
-        ];
+  const coupons = React.useMemo(
+    () =>
+      inputCoupons.length > 0
+        ? inputCoupons
+        : [
+            {
+              title: "Flat 33% Off",
+              code: "RFEAST33",
+              description: "Get Flat 33% Off on prepaid orders. Min ₹99.",
+        
+            },
+            {
+              title: "Flat 20% Off",
+              code: "RFEAST20",
+              description: "Flat 20% Off on prepaid orders. Min ₹999.",
+            },
+            {
+              title: "Flat 15% Off",
+              code: "RFEAST15",
+              description: "Flat 15% Off on prepaid orders. Min ₹499.",
+            },
+            {
+              title: "Flat 25% Off",
+              code: "RFEAST25",
+              description: "Flat 25% Off on prepaid orders. Min ₹2499.",
+            },
+            {
+              title: "Flat 30% Off",
+              code: "RFEAST30",
+              description: "Flat 30% Off on prepaid orders. Min ₹4999.",
+            },
+            {
+              title: "Welcome Discount",
+              code: "SAVE20",
+              description: "20% off on first order",
+            },
+            {
+              title: "Free Shipping",
+              code: "FREESHIP",
+              description: "Free shipping over ₹50.",
+            },
+          ],
+    [inputCoupons]
+  );
 
   // Tripled list for seamless infinite effect
   const list = React.useMemo(() => [...coupons, ...coupons, ...coupons], [coupons]);
