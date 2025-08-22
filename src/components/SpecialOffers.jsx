@@ -280,7 +280,7 @@ export default function SpecialOffersSlider({ coupons: inputCoupons = [] }) {
   return (
     <section className="py-12 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 text-red-600">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Special Offers &amp; Discounts
         </h2>
 
