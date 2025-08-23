@@ -4,24 +4,27 @@ import { Star } from "lucide-react";
 
 const reviews = [
   {
-    name: "Amit Sharma",
-    review: "Excellent service, I’m really happy with the support and quality!",
+    name: "Priya Chaudhary",
+    review:
+      "I was travelling with my elderly parents from Kanpur to Delhi. We decided to order Food from Railfeast. After we had our meal, they were quite happy with the Food we received. They were in doubt at first but loved the hot Food which tasted like home-cooked Food. Thank you, Railfeast!",
     rating: 5,
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
+    img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1887&auto=format&fit=crop",
     date: "Aug 2025",
   },
   {
-    name: "Divya Singh",
-    review: "Very smooth process and customer care was very supportive.",
-    rating: 4,
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Amit Mishra",
+    review:
+      "One of my friends recommended me “Railfeast”, since then I only order from them when I am travelling. The App, as well as the website, has an easy ordering process with tasty meals. We ordered for our entire tour group while travelling from Kolkata to Nagpur, and everything came on time. Loved their great service!",
+    rating: 5,
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop",
     date: "Jul 2025",
   },
   {
-    name: "Ravi Kumar",
-    review: "Great experience overall. I’ll definitely recommend this.",
+    name: "Meenal Thakur",
+    review:
+      "As a solo traveller, I have been facing food quality issues, so while IRCTC Food Order online during my Train journey to Jaipur, I was worried about the food quality because I didn't want my trip to be spoiled due to my health issues caused by bad quality food. However, Railfeast delivered the best quality food, which was clean, fresh, and safe to eat. I would highly recommend their service and food on Train.",
     rating: 5,
-    img: "https://randomuser.me/api/portraits/men/65.jpg",
+    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop",
     date: "Jun 2025",
   },
 ];
@@ -32,14 +35,14 @@ const containerVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      staggerChildren: 0.2
-    }
-  }
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 };
 
 export default function Testimonials() {
@@ -53,7 +56,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center w-auto min-h-auto bg-white p-6 md:p-10">
+    <div className="flex flex-col items-center justify-center w-auto bg-white py-8 px-6 md:px-10">
       {/* Heading */}
       <motion.h2
         className="text-3xl md:text-4xl font-bold text-red-600 mb-10"
@@ -61,7 +64,7 @@ export default function Testimonials() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        Testimonials
+        What Customers Say – Testimonials & Ratings
       </motion.h2>
 
       {/* Vertical Avatar Strip */}
@@ -69,9 +72,7 @@ export default function Testimonials() {
         <motion.div
           className="flex flex-col items-center gap-6"
           initial={{ y: 0 }}
-          // Animate with a precise offset to perfectly center the active image
-          // 104px is the height of the item (80px) plus the gap (24px)
-          animate={{ y: `-${activeIndex * 104}px` }}
+          animate={{ y: `-${activeIndex * 104}px` }} // 80px img + 24px gap
           transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
           {reviews.map((review, i) => {
@@ -79,17 +80,17 @@ export default function Testimonials() {
             return (
               <motion.div
                 key={i}
-                className={`flex-shrink-0 flex flex-col items-center cursor-pointer transition-all duration-500`}
+                className="flex-shrink-0 flex flex-col items-center cursor-pointer transition-all duration-500"
                 onClick={() => setActiveIndex(i)}
                 style={{
                   opacity: isActive ? 1 : 0.3,
-                  transform: `scale(${isActive ? 1.2 : 0.8})`
+                  transform: `scale(${isActive ? 1.2 : 0.8})`,
                 }}
               >
                 <img
                   src={review.img}
                   alt={review.name}
-                  className="rounded-full shadow-lg border-4 border-red-500"
+                  className="rounded-full shadow-lg border-4 border-red-500 h-20 w-20 object-cover"
                 />
                 <p className="mt-2 text-sm font-medium text-gray-700 text-center">
                   {review.name}
@@ -110,6 +111,13 @@ export default function Testimonials() {
           exit="hidden"
           variants={containerVariants}
         >
+          {/* Main Image for Active Review */}
+          <motion.img
+            src={reviews[activeIndex].img}
+            alt={reviews[activeIndex].name}
+            className="rounded-full shadow-lg border-4 border-red-500 h-40 w-40 object-cover"
+            variants={itemVariants}
+          />
           {/* Review text */}
           <motion.div
             className="flex flex-col text-center md:text-left"
