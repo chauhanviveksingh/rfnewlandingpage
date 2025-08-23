@@ -14,7 +14,7 @@ const GroupBulkOrder = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative flex flex-col items-center justify-center py-16 px-6 lg:px-20 font-sans">
+    <section className="relative flex flex-col items-center justify-center py-4 px-6 lg:px-20 font-sans">
       {/* Floating animated background circles */}
       <motion.div
         animate={{ y: [0, -20, 0] }}

@@ -26,8 +26,9 @@ const HowItWorksV3 = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-r from-white to-white py-16 px-6 lg:px-12 font-sans">
-      <div className="max-w-6xl mx-auto text-center">
+    <section className="w-full bg-gradient-to-r from-white to-white py-16 px-6 lg:px-12 font-sans">
+      {/* Full width container */}
+      <div className="w-full text-center">
         <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
           How It Works
         </h2>
@@ -36,18 +37,18 @@ const HowItWorksV3 = () => {
         </p>
       </div>
 
-      {/* Desktop timeline */}
-      <div className="hidden lg:grid grid-cols-4 gap-8 mt-12 relative">
+      {/* Desktop timeline full width */}
+      <div className="hidden lg:grid grid-cols-4 gap-8 mt-12 relative w-full">
         {steps.map((step, index) => (
           <div
             key={index}
-            className="relative flex flex-col items-center text-center"
+            className="relative flex flex-col items-center text-center px-4"
           >
             {/* Connector line */}
             {index < steps.length - 1 && (
               <div className="absolute top-14 left-full w-full h-1 bg-gray-200"></div>
             )}
-            {/* Step Circle with bigger size */}
+            {/* Step Circle */}
             <div className="flex items-center justify-center w-28 h-28 rounded-full bg-white text-red-600 shadow-lg mb-6 z-10">
               {step.icon}
             </div>
@@ -58,15 +59,15 @@ const HowItWorksV3 = () => {
         ))}
       </div>
 
-      {/* Mobile stacked cards */}
-      <div className="lg:hidden mt-12 space-y-6">
+      {/* Mobile stacked cards full width */}
+      <div className="lg:hidden mt-12 space-y-6 w-full">
         {steps.map((step, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-xl p-6 flex items-center gap-4 hover:shadow-lg transition"
+            className="bg-white shadow-md rounded-xl p-6 flex items-center gap-4 hover:shadow-lg transition w-full"
           >
-            {/* Bigger icon circle */}
-            <div className="flex items-center justify-center w-50 h-20 rounded-full bg-white text-red-600 shadow-md">
+            {/* Icon Circle */}
+            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white text-red-600 shadow-md">
               {step.icon}
             </div>
             <div>
@@ -83,7 +84,7 @@ const HowItWorksV3 = () => {
 // Main app wrapper
 const App = () => {
   return (
-    <div className="h-auto bg-gray-100 flex items-center justify-center p-4">
+    <div className="h-auto bg-gray-100">
       <HowItWorksV3 />
     </div>
   );

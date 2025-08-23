@@ -7,6 +7,8 @@ import CollapsibleContent from './components/CollapsibleContent';
 import HowToOrder from './components/HowToOrder.jsx';
 import SpecialOffers from './components/SpecialOffers.jsx';
 import GroupOrder from './components/GroupOrder.jsx';
+import Testimonial from './components/Testimonial.jsx';
+
 
 
 
@@ -17,6 +19,7 @@ createRoot(document.getElementById('root')).render(
     <HowToOrder />
     <SpecialOffers/>
     <GroupOrder/>
+    <Testimonial/>
     <CollapsibleContent />
 
   </StrictMode>

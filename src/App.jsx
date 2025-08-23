@@ -276,7 +276,7 @@ const App = () => {
       </h1>
 
       {/* Main content card */}
-      <div className="relative w-11/12 mt-10 max-w-2xl bg-white p-6 md:p-8 rounded-3xl shadow-xl z-10">
+    <div className="relative w-11/12 mt-10 max-w-2xl bg-white p-6 md:p-8 rounded-3xl shadow-xl z-10">
         <Tabs />
         <TabContent
           activeTab={activeTab}
