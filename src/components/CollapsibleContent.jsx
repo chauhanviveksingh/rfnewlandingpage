@@ -37,7 +37,7 @@ const CollapsibleContent = () => {
   ];
 
   return (
-    <div className="bg-gray-50 py-10 flex flex-col items-center">
+    <div className="bg-white py-10 flex flex-col items-center">
       <h2 className="text-2xl md:text-3xl font-bold text-center">
         Happy travel! <br />
         See you on your train ride <span role="img" aria-label="heart">🚊</span>
