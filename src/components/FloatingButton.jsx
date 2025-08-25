@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { X } from "lucide-react"; // using lucide-react for a clean close icon
 
 const FloatingButtons = () => {
   const [showButtons, setShowButtons] = useState(false);
 
-  // Show card after 1 second
+  // Show buttons after 1 second
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtons(true);
@@ -11,7 +12,7 @@ const FloatingButtons = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle click + hide card
+  // Handle click + hide
   const handleClick = (url) => {
     setShowButtons(false);
     window.open(url, "_blank");
@@ -23,8 +24,16 @@ const FloatingButtons = () => {
         showButtons ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
       }`}
     >
-      {/* Full-width card */}
-      <div className="bg-white w-full shadow-2xl p-6 flex flex-col md:flex-row justify-center gap-4">
+      {/* Floating Card */}
+      <div className="relative bg-white w-full shadow-2xl p-6 flex flex-col md:flex-row justify-center gap-4">
+        {/* Close Button */}
+        <button
+          onClick={() => setShowButtons(false)}
+          className="absolute top-2 right-2 text-gray-500 hover:text-red-600 transition"
+        >
+          <X size={20} />
+        </button>
+
         {/* Button 1 - Order Food */}
         <button
           onClick={() => handleClick("https://railfeast.com")}
