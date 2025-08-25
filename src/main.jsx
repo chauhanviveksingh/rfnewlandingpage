@@ -10,7 +10,7 @@ import GroupOrder from './components/GroupOrder.jsx';
 import Testimonial from './components/Testimonial.jsx';
 import Appdownload from './components/Appdownload.jsx';
 import Footer from './components/Footer.jsx';
-
+import FloatingButtons from './components/FloatingButton.jsx';
 
 
 
@@ -25,6 +25,8 @@ createRoot(document.getElementById('root')).render(
     <CollapsibleContent />
     <Appdownload/>
     <Footer/>
+    <FloatingButtons/>
+
 
   </StrictMode>
 )

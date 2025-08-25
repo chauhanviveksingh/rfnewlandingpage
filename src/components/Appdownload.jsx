@@ -3,14 +3,15 @@ import { motion } from "framer-motion";
 
 export default function AppDownloadSection() {
   return (
-    <section className="min-h-auto w-full bg-gradient-to-b from-white via-red-50 to-white flex flex-col items-center justify-center text-center px-6 py-12">
+    <section className="min-h-auto w-full bg-white flex flex-col items-center justify-center text-center px-6 py-12">
       {/* Heading */}
       <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-red-700 drop-shadow-lg mb-4">
         Download Our App
       </h2>
       <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-2xl mb-12">
         Get the best experience of our services right on your phone.  
-        Available on both <span className="font-semibold text-red-600">iOS</span> and{" "}
+        Available on both{" "}
+        <span className="font-semibold text-red-600">iOS</span> and{" "}
         <span className="font-semibold text-red-600">Android</span>.
       </p>
 
@@ -21,7 +22,8 @@ export default function AppDownloadSection() {
           href="#"
           whileHover={{ scale: 1.05, rotate: -1 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-4 border-2 border-red-600 bg-white text-red-600 rounded-full px-6 py-3 sm:px-8 sm:py-4 shadow-lg hover:shadow-red-300 transition-all duration-300"
+          className="flex items-center gap-4 border-2 border-red-600 bg-white text-red-600 
+          rounded-lg px-6 py-3 sm:px-8 sm:py-4 shadow-md hover:shadow-red-300 transition-all duration-300"
         >
           <svg
             className="w-8 h-8 sm:w-10 sm:h-10 text-red-600"
@@ -43,7 +45,8 @@ export default function AppDownloadSection() {
           href="#"
           whileHover={{ scale: 1.05, rotate: 1 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-4 border-2 border-red-600 bg-white text-red-600 rounded-full px-6 py-3 sm:px-8 sm:py-4 shadow-lg hover:shadow-red-300 transition-all duration-300"
+          className="flex items-center gap-4 border-2 border-red-600 bg-white text-red-600 
+          rounded-lg px-6 py-3 sm:px-8 sm:py-4 shadow-md hover:shadow-red-300 transition-all duration-300"
         >
           <svg
             className="w-8 h-8 sm:w-10 sm:h-10 text-red-600"

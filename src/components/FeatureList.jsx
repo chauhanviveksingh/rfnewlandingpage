@@ -81,7 +81,7 @@ const FeatureList = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-10 lg:p-12 mt-10">
+    <div className="max-w-6xl mx-auto mt-10 px-4 md:px-6 lg:px-8">
       <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-800 mb-8 md:mb-10">
         Your culinary journey starts with RailFeast
       </h2>
@@ -106,6 +106,5 @@ const FeatureList = () => {
     </div>
   );
 };
-
 
 export default FeatureList;
