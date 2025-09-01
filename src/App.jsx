@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from "react";
 import { CalendarDays } from "lucide-react";
-
-import HomeImg from "./assets/home_img.webp"; // Importing the home image
+import HomeImg from "./assets/home_img.webp"; // keep your asset path
 
 const homeImgUrl = HomeImg;
 
@@ -11,7 +10,6 @@ const startOfDay = (d) => {
   return x;
 };
 
-// Helper function to format date parts
 const formatDateParts = (date) => {
   const day = date.toLocaleDateString("en-US", { day: "2-digit" });
   const month = date.toLocaleDateString("en-US", { month: "short" });
@@ -19,7 +17,21 @@ const formatDateParts = (date) => {
   return { month, day, weekday };
 };
 
-// Memoized TabContent component to prevent unnecessary re-renders.
+/* ---------------- small station dataset (demo) ----------------
+   Replace/extend this array with your real station data when ready.
+*/
+const stationList = [
+  { name: "New Delhi", code: "NDLS" },
+  { name: "Howrah Junction", code: "HWH" },
+  { name: "Mumbai Central", code: "MMCT" },
+  { name: "Chennai Central", code: "MAS" },
+  { name: "Kanpur Central", code: "CNB" },
+  { name: "Patna Junction", code: "PNBE" },
+  { name: "Kolkata", code: "KOAA" },
+  { name: "Secunderabad", code: "SC" },
+];
+
+/* ---------------- TabContent ---------------- */
 const TabContent = memo(
   ({
     activeTab,
@@ -38,12 +50,32 @@ const TabContent = memo(
     calendarPosition,
     datePickerRef,
   }) => {
-    const [pnrError, setPnrError] = useState(""); // <-- validation error state
+    // validation error state
+    const [pnrError, setPnrError] = useState("");
 
-    // Handlers for input validation
+    // dropdown states & refs
+    const [stationDropdown, setStationDropdown] = useState([]);
+    const [codeDropdown, setCodeDropdown] = useState([]);
+    const stationWrapperRef = useRef(null);
+    const codeWrapperRef = useRef(null);
+
+    // close dropdowns when clicking outside
+    useEffect(() => {
+      const onDocClick = (e) => {
+        if (stationWrapperRef.current && !stationWrapperRef.current.contains(e.target)) {
+          setStationDropdown([]);
+        }
+        if (codeWrapperRef.current && !codeWrapperRef.current.contains(e.target)) {
+          setCodeDropdown([]);
+        }
+      };
+      document.addEventListener("click", onDocClick);
+      return () => document.removeEventListener("click", onDocClick);
+    }, []);
+
+    // Handlers
     const handlePnrChange = (e) => {
       const v = e.target.value;
-
       if (/^\d*$/.test(v)) {
         setPnrNumber(v);
 
@@ -54,22 +86,44 @@ const TabContent = memo(
         } else if (v.length !== 10) {
           setPnrError("PNR must be exactly 10 digits");
         } else {
-          setPnrError(""); // valid
+          setPnrError("");
         }
       }
     };
 
     const handleStationInputChange = (e) => {
       const v = e.target.value;
-      if (/^[a-zA-Z\s]*$/.test(v)) setStationInput(v);
+      if (/^[a-zA-Z\s]*$/.test(v)) {
+        setStationInput(v);
+        if (v.trim() === "") {
+          setStationDropdown([]);
+        } else {
+          const q = v.toLowerCase();
+          setStationDropdown(
+            stationList.filter((s) => s.name.toLowerCase().includes(q) || s.code.toLowerCase().includes(q))
+          );
+        }
+      }
     };
+
     const handleTrainNumberChange = (e) => {
       const v = e.target.value;
       if (/^\d*$/.test(v)) setTrainNumber(v);
     };
+
     const handleStationCodeChange = (e) => {
       const v = e.target.value.toUpperCase();
-      if (/^[A-Z]*$/.test(v)) setStationCode(v);
+      if (/^[A-Z]*$/.test(v)) {
+        setStationCode(v);
+        if (v.trim() === "") {
+          setCodeDropdown([]);
+        } else {
+          const q = v.toLowerCase();
+          setCodeDropdown(
+            stationList.filter((s) => s.code.toLowerCase().startsWith(q) || s.name.toLowerCase().includes(q))
+          );
+        }
+      }
     };
 
     const today = startOfDay(new Date());
@@ -90,7 +144,7 @@ const TabContent = memo(
 
     return (
       <div className="mt-6">
-        {/* PNR Tab Content */}
+        {/* By PNR */}
         <div className={`${activeTab === "By PNR" ? "" : "hidden"}`}>
           <div className="grid grid-cols-1 gap-2">
             <input
@@ -100,31 +154,47 @@ const TabContent = memo(
               placeholder="Enter PNR Number"
               value={pnrNumber}
               onChange={handlePnrChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
               maxLength={10}
             />
-            {pnrError && (
-              <p className="text-red-600 text-sm mt-1">{pnrError}</p>
-            )}
+            {pnrError && <p className="text-[#cb212e] text-sm mt-1">{pnrError}</p>}
           </div>
         </div>
 
-        {/* Station Tab Content */}
+        {/* By Station */}
         <div className={`${activeTab === "By Station" ? "" : "hidden"}`}>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="relative grid grid-cols-1 gap-4" ref={stationWrapperRef}>
             <input
               type="text"
               placeholder="Enter Station Name (e.g. New Delhi)"
               value={stationInput}
               onChange={handleStationInputChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
+              aria-autocomplete="list"
             />
+            {stationDropdown.length > 0 && (
+              <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-md max-h-44 overflow-y-auto z-20">
+                {stationDropdown.map((s, i) => (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      setStationInput(s.name);
+                      setStationDropdown([]);
+                    }}
+                    className="px-4 py-2 cursor-pointer hover:bg-red-50"
+                    role="option"
+                  >
+                    {s.name} ({s.code})
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Train Tab Content */}
+        {/* By Train No */}
         <div className={`${activeTab === "By Train No" ? "" : "hidden"}`}>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="relative grid grid-cols-1 gap-4">
             <input
               type="text"
               inputMode="numeric"
@@ -132,16 +202,37 @@ const TabContent = memo(
               placeholder="Enter Train Number"
               value={trainNumber}
               onChange={handleTrainNumberChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
             />
-            <input
-              type="text"
-              placeholder="Enter Station Code (e.g. NDLS)"
-              value={stationCode}
-              onChange={handleStationCodeChange}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
-            />
+            <div className="relative" ref={codeWrapperRef}>
+              <input
+                type="text"
+                placeholder="Enter Station Code (e.g. NDLS)"
+                value={stationCode}
+                onChange={handleStationCodeChange}
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
+                aria-autocomplete="list"
+              />
+              {codeDropdown.length > 0 && (
+                <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-md max-h-44 overflow-y-auto z-20">
+                  {codeDropdown.map((s, i) => (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setStationCode(s.code);
+                        setCodeDropdown([]);
+                      }}
+                      className="px-4 py-2 cursor-pointer hover:bg-red-50"
+                      role="option"
+                    >
+                      {s.name} ({s.code})
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+
           {/* Date picker + 6-date cards for By Train No tab only */}
           <div className="mt-8 relative" ref={datePickerRef}>
             <div
@@ -149,7 +240,7 @@ const TabContent = memo(
               onClick={() => setShowFullCalendar(!showFullCalendar)}
             >
               <h3 className="text-xl font-bold">Boarding Date</h3>
-              <CalendarDays size={24} className="text-red-600" />
+              <CalendarDays size={24} className="text-[#cb212e]" />
               <span className="text-md font-medium text-gray-700">
                 {selectedDate.toLocaleDateString("en-US", {
                   year: "numeric",
@@ -166,8 +257,8 @@ const TabContent = memo(
                   onClick={() => setSelectedDate(startOfDay(dateObj.date))}
                   className={`flex-none w-24 p-2 text-center rounded-xl cursor-pointer transition-all duration-200 ${
                     selectedIndex === index
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-600"
+                      ? "bg-[#cb212e] text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-[#cb212e]"
                   }`}
                 >
                   <div className="text-2xl font-bold">{dateObj.day}</div>
@@ -199,7 +290,7 @@ const TabContent = memo(
   }
 );
 
-// Full Calendar Component
+/* ---------------- FullCalendar ---------------- */
 const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
   const [currentMonth, setCurrentMonth] = useState(
     new Date(selectedDate.getFullYear(), selectedDate.getMonth())
@@ -253,11 +344,11 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
           className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium
             ${
               isSelected
-                ? "bg-red-600 text-white"
+                ? "bg-[#cb212e] text-white"
                 : "hover:bg-gray-200 text-gray-800"
             }
             ${
-              isToday && !isSelected ? "border border-red-600 text-red-600" : ""
+              isToday && !isSelected ? "border border-[#cb212e] text-[#cb212e]" : ""
             }
             ${
               isUnselectablePastDate
@@ -274,15 +365,11 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
   };
 
   const nextMonth = () => {
-    setCurrentMonth(
-      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1)
-    );
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
   };
 
   const prevMonth = () => {
-    setCurrentMonth(
-      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1)
-    );
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1));
   };
 
   return (
@@ -290,7 +377,7 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={prevMonth}
-          className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none"
+          className="text-gray-600 hover:text-[#cb212e] p-2 rounded-full transition-all duration-200 focus:outline-none"
         >
           &lt;
         </button>
@@ -302,7 +389,7 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
         </span>
         <button
           onClick={nextMonth}
-          className="text-gray-600 hover:text-red-600 p-2 rounded-full transition-all duration-200 focus:outline-none"
+          className="text-gray-600 hover:text-[#cb212e] p-2 rounded-full transition-all duration-200 focus:outline-none"
         >
           &gt;
         </button>
@@ -312,14 +399,12 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
           <div key={day}>{day}</div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-2 text-center mt-2">
-        {renderDays()}
-      </div>
+      <div className="grid grid-cols-7 gap-2 text-center mt-2">{renderDays()}</div>
     </div>
   );
 });
 
-// Main App component
+/* ---------------- App ---------------- */
 const App = () => {
   const [activeTab, setActiveTab] = useState("By PNR");
   const [pnrNumber, setPnrNumber] = useState("");
@@ -351,48 +436,43 @@ const App = () => {
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [showFullCalendar]);
 
   const commonButtonClass =
-    "col-span-1 h-16 md:h-10 w-full bg-red-600 text-white font-bold text-xl rounded-xl shadow-md hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2";
+    "col-span-1 h-16 md:h-10 w-full bg-[#cb212e] text-white font-bold text-xl rounded-xl shadow-md hover:bg-[#cb212e] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#cb212e] focus:ring-offset-2";
 
-  const Tabs = () => (
-    <div className="flex justify-between border-b border-gray-200">
-      {["By PNR", "By Station", "By Train No"].map((tab) => (
-        <button
-          key={tab}
-          onClick={() => {
-            setActiveTab(tab);
-            setShowFullCalendar(false);
+  const Tabs = () => {
+    const tabs = ["By PNR", "By Station", "By Train No"];
+    return (
+      <div className="relative flex justify-between border-b border-gray-200">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => {
+              setActiveTab(tab);
+              setShowFullCalendar(false);
+            }}
+            className={`flex-1 text-center py-4 text-lg font-semibold rounded-t-lg transition-all duration-300 ${
+              activeTab === tab ? "text-[#cb212e]" : "text-gray-500 hover:text-[#cb212e]"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+        <div
+          className="absolute bottom-0 h-1 bg-[#cb212e] transition-all duration-300 rounded-full"
+          style={{
+            width: `${100 / 3}%`,
+            left: `${["By PNR", "By Station", "By Train No"].indexOf(activeTab) * (100 / 3)}%`,
           }}
-          className={`flex-1 text-center py-4 text-lg font-semibold rounded-t-lg transition-all duration-300 ${
-            activeTab === tab
-              ? "text-red-600 border-b-4 border-red-600"
-              : "text-gray-500 hover:text-red-600"
-          }`}
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
-  );
+        />
+      </div>
+    );
+  };
 
   return (
     <div className="h-auto bg-gray-100 font-sans flex flex-col items-center">
-      <script src="https://cdn.tailwindcss.com"></script>
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-          body {
-            font-family: 'Inter', sans-serif;
-          }
-        `}
-      </style>
-
       <div className="relative w-full overflow-hidden bg-white shadow-lg rounded-b-[6px]">
         <img
           src={homeImgUrl}

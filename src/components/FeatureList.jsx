@@ -21,62 +21,62 @@ const FeatureList = () => {
     {
       title: 'No Minimum Order',
       description: 'Say Goodbye to restrictions.',
-      icon: <Wallet size={24} className="text-red-600" />,
+      icon: <Wallet size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Double Discount',
       description: 'Double the delight with exclusive discounts.',
-      icon: <Tag size={24} className="text-red-600" />,
+      icon: <Tag size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Free Delivery',
       description: 'No Delivery, Platform & Convenience fee. Save 60 rs per order just because of this.',
-      icon: <Truck size={24} className="text-red-600" />,
+      icon: <Truck size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Order Live Tracking',
       description: 'Track your order in real time.',
-      icon: <MapPin size={24} className="text-red-600" />,
+      icon: <MapPin size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Guaranteed Delivery',
       description: 'Get assured delivery or 100 rs in wallet.',
-      icon: <ShieldCheck size={24} className="text-red-600" />,
+      icon: <ShieldCheck size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Quality Assurance',
       description: 'Get refund up to 50% in case of complain',
-      icon: <Award size={24} className="text-red-600" />,
+      icon: <Award size={24} className="text-[#cb212e]" />,
     },
     {
       title: '24 x 7 Customer Support',
       description: 'Your satisfaction is our priority, day or night!',
-      icon: <Headset size={24} className="text-red-600" />,
+      icon: <Headset size={24} className="text-[#cb212e]" />,
     },
     {
       title: '25% Cashback on Delivery',
       description: 'Get flat 25% of order value in wallet',
-      icon: <Banknote size={24} className="text-red-600" />,
+      icon: <Banknote size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Easy Cancellation',
       description: 'Cancel order upto 1 hr before train arrival.',
-      icon: <Clock size={24} className="text-red-600" />,
+      icon: <Clock size={24} className="text-[#cb212e]" />,
     },
     {
       title: '350+ Stations across India',
       description: 'Choose your meal from 1000+ restaurants',
-      icon: <Tent size={24} className="text-red-600" />,
+      icon: <Tent size={24} className="text-[#cb212e]" />,
     },
     {
       title: 'Multiple Payment Options',
       description: 'Pay via UPI, Netbanking, cards or COD',
-      icon: <Smartphone size={24} className="text-red-600" />,
+      icon: <Smartphone size={24} className="text-[#cb212e]" />,
     },
     {
       title: '100% Genuinely rated restaurants',
       description: 'No manipulations in restaurants rating',
-      icon: <Star size={24} className="text-red-600" />,
+      icon: <Star size={24} className="text-[#cb212e]" />,
     },
   ];
 

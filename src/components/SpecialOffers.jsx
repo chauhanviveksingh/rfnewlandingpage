@@ -10,7 +10,7 @@ import React, {
 const CouponCard = React.memo(function CouponCard({ coupon, onCopy, isCopied }) {
   return (
     <div className="relative bg-white rounded-2xl p-6 shadow-lg border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl">
-      <div className="absolute top-0 right-0 bg-red-500 text-xs font-bold text-white px-3 py-1 rounded-bl-lg">
+      <div className="absolute top-0 right-0 bg-[#cb212e] text-xs font-bold text-white px-3 py-1 rounded-bl-lg">
         {coupon.badge ?? "Limited Time"}
       </div>
 
@@ -32,7 +32,7 @@ const CouponCard = React.memo(function CouponCard({ coupon, onCopy, isCopied }) 
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-200 ${
               isCopied
                 ? "bg-green-500 text-white"
-                : "bg-red-50 text-red-700 hover:bg-red-100"
+                : "bg-red-50 text-[#cb212e] hover:bg-red-100"
             }`}
             aria-label={`Copy coupon code ${coupon.code}`}
           >

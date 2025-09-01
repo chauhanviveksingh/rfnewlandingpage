@@ -36,18 +36,18 @@ const GroupBulkOrder = () => {
       >
         {/* Icon */}
         <div className="flex justify-center mb-6">
-          <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 rounded-full shadow-lg">
+          <div className="p-4 bg-gradient-to-r from-red-600 to-[#cb212e] rounded-full shadow-lg">
             <Users size={42} strokeWidth={2.5} className="text-white" />
           </div>
         </div>
 
         {/* Heading */}
         <h2 className="text-3xl font-bold text-gray-900">
-          Group <span className="text-red-600">Order</span>
+          Group <span className="text-[#cb212e]">Order</span>
         </h2>
 
         {/* Highlighted description box */}
-        <div className="mt-4 bg-gradient-to-r from-red-50 to-white border-l-4 border-red-500 shadow-sm rounded-xl px-6 py-4">
+        <div className="mt-4 bg-gradient-to-r from-red-50 to-white border-l-4 border-[#cb212e] shadow-sm rounded-xl px-6 py-4">
           <p className="text-gray-700 text-lg leading-relaxed">
             Planning food for a group? <br />
             Place a bulk order in just a few clicks. <br />
@@ -61,7 +61,7 @@ const GroupBulkOrder = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold shadow-md hover:shadow-lg"
+            className="px-6 py-3 bg-gradient-to-r from-red-600 to-[#cb212e] text-white rounded-xl font-semibold shadow-md hover:shadow-lg"
           >
             Bulk Order
           </motion.button>
@@ -70,7 +70,7 @@ const GroupBulkOrder = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="tel:+919999999999" // replace with your number
-            className="px-6 py-3 bg-white border-2 border-red-500 text-red-600 rounded-xl font-semibold shadow-md hover:bg-red-50 flex items-center justify-center gap-2"
+            className="px-6 py-3 bg-white border-2 border-red-600 text-[#cb212e] rounded-xl font-semibold shadow-md hover:bg-red-50 flex items-center justify-center gap-2"
           >
             <Phone size={20} />
             Call Us
@@ -97,7 +97,7 @@ const GroupBulkOrder = () => {
               {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 text-gray-600 hover:text-red-500"
+                className="absolute top-4 right-4 text-gray-600 hover:text-[#cb212e]"
               >
                 <X size={24} />
               </button>
@@ -116,7 +116,7 @@ const GroupBulkOrder = () => {
               <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Name */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <User className="text-red-500 mr-2" size={20} />
+                  <User className="text-[#cb212e] mr-2" size={20} />
                   <input
                     type="text"
                     placeholder="Name"
@@ -127,7 +127,7 @@ const GroupBulkOrder = () => {
 
                 {/* PNR */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <ClipboardList className="text-red-500 mr-2" size={20} />
+                  <ClipboardList className="text-[#cb212e] mr-2" size={20} />
                   <input
                     type="text"
                     placeholder="PNR Number"
@@ -138,7 +138,7 @@ const GroupBulkOrder = () => {
 
                 {/* Email */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <Mail className="text-red-500 mr-2" size={20} />
+                  <Mail className="text-[#cb212e] mr-2" size={20} />
                   <input
                     type="email"
                     placeholder="Email"
@@ -149,7 +149,7 @@ const GroupBulkOrder = () => {
 
                 {/* Mobile */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <Phone className="text-red-500 mr-2" size={20} />
+                  <Phone className="text-[#cb212e] mr-2" size={20} />
                   <input
                     type="tel"
                     placeholder="Mobile"
@@ -160,7 +160,7 @@ const GroupBulkOrder = () => {
 
                 {/* Passengers */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <Users className="text-red-500 mr-2" size={20} />
+                  <Users className="text-[#cb212e] mr-2" size={20} />
                   <input
                     type="number"
                     placeholder="Number of Passengers"
@@ -171,7 +171,7 @@ const GroupBulkOrder = () => {
 
                 {/* Date */}
                 <div className="flex items-center border rounded-xl px-3 py-2">
-                  <Calendar className="text-red-500 mr-2" size={20} />
+                  <Calendar className="text-[#cb212e] mr-2" size={20} />
                   <input type="date" className="w-full outline-none" required />
                 </div>
 
@@ -189,7 +189,7 @@ const GroupBulkOrder = () => {
                 <div className="md:col-span-2 flex justify-center mt-4">
                   <button
                     type="submit"
-                    className="bg-red-600 text-white px-8 py-3 rounded-xl shadow hover:bg-red-700 transition font-semibold"
+                    className="bg-[#cb212e] text-white px-8 py-3 rounded-xl shadow hover:bg-[#cb212e] transition font-semibold"
                   >
                     Submit
                   </button>

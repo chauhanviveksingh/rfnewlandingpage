@@ -29,7 +29,7 @@ const FloatingButtons = () => {
         {/* Close Button */}
         <button
           onClick={() => setShowButtons(false)}
-          className="absolute top-2 right-2 text-gray-500 hover:text-red-600 transition"
+          className="absolute top-2 right-2 text-gray-500 hover:text-[#cb212e] transition"
         >
           <X size={20} />
         </button>
@@ -37,7 +37,7 @@ const FloatingButtons = () => {
         {/* Button 1 - Order Food */}
         <button
           onClick={() => handleClick("https://railfeast.com")}
-          className="w-full md:w-auto bg-red-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-red-700 transition-all duration-300"
+          className="w-full md:w-auto bg-[#cb212e] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-[#cb212e] transition-all duration-300"
         >
           Order Food on RailFeast
         </button>

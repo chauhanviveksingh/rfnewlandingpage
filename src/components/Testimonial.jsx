@@ -59,7 +59,7 @@ export default function Testimonials() {
     <div className="flex flex-col items-center justify-center w-auto bg-white py-8 px-6 md:px-10">
       {/* Heading */}
       <motion.h2
-        className="text-3xl md:text-4xl font-bold text-red-600 mb-10"
+        className="text-3xl md:text-4xl font-bold text-[#cb212e] mb-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -90,7 +90,7 @@ export default function Testimonials() {
                 <img
                   src={review.img}
                   alt={review.name}
-                  className="rounded-full shadow-lg border-4 border-red-500 h-20 w-20 object-cover"
+                  className="rounded-full shadow-lg border-4 border-[#cb212e] h-20 w-20 object-cover"
                 />
                 <p className="mt-2 text-sm font-medium text-gray-700 text-center">
                   {review.name}
@@ -115,7 +115,7 @@ export default function Testimonials() {
           <motion.img
             src={reviews[activeIndex].img}
             alt={reviews[activeIndex].name}
-            className="rounded-full shadow-lg border-4 border-red-500 h-40 w-40 object-cover"
+            className="rounded-full shadow-lg border-4 border-[#cb212e] h-40 w-40 object-cover"
             variants={itemVariants}
           />
           {/* Review text */}
@@ -138,7 +138,7 @@ export default function Testimonials() {
                 />
               ))}
             </div>
-            <p className="text-red-500 mt-2">{reviews[activeIndex].date}</p>
+            <p className="text-[#cb212e] mt-2">{reviews[activeIndex].date}</p>
           </motion.div>
         </motion.div>
       </AnimatePresence>

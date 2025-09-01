@@ -49,7 +49,7 @@ const HowItWorksV3 = () => {
               <div className="absolute top-14 left-full w-full h-1 bg-gray-200"></div>
             )}
             {/* Step Circle */}
-            <div className="flex items-center justify-center w-28 h-28 rounded-full bg-white text-red-600 shadow-lg mb-6 z-10">
+            <div className="flex items-center justify-center w-28 h-28 rounded-full bg-white text-[#cb212e] shadow-lg mb-6 z-10">
               {step.icon}
             </div>
             {/* Step Details */}
@@ -67,7 +67,7 @@ const HowItWorksV3 = () => {
             className="bg-white shadow-md rounded-xl p-6 flex items-center gap-4 hover:shadow-lg transition w-full"
           >
             {/* Icon Circle */}
-            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white text-red-600 shadow-md">
+            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white text-[#cb212e] shadow-md">
               {step.icon}
             </div>
             <div>
