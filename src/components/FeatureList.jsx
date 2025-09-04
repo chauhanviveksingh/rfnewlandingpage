@@ -85,7 +85,7 @@ const FeatureList = () => {
       <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-800 mb-8 md:mb-10">
         Your culinary journey starts with RailFeast
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-1">
         {features.map((feature, index) => (
           <div
             key={index}

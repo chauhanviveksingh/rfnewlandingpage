@@ -73,6 +73,23 @@ const TabContent = memo(
       return () => document.removeEventListener("click", onDocClick);
     }, []);
 
+    // close calendar when clicking outside the date picker/calendar
+    useEffect(() => {
+      const onDocClickCloseCalendar = (e) => {
+        if (
+          showFullCalendar &&
+          datePickerRef &&
+          datePickerRef.current &&
+          !datePickerRef.current.contains(e.target)
+        ) {
+          setShowFullCalendar(false);
+        }
+      };
+
+      document.addEventListener("mousedown", onDocClickCloseCalendar);
+      return () => document.removeEventListener("mousedown", onDocClickCloseCalendar);
+    }, [showFullCalendar, datePickerRef, setShowFullCalendar]);
+
     // Handlers
     const handlePnrChange = (e) => {
       const v = e.target.value;
@@ -207,7 +224,7 @@ const TabContent = memo(
             <div className="relative" ref={codeWrapperRef}>
               <input
                 type="text"
-                placeholder="Enter Station Code (e.g. NDLS)"
+                placeholder="Enter Boarding Station/Code (e.g. NDLS)"
                 value={stationCode}
                 onChange={handleStationCodeChange}
                 className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
@@ -244,7 +261,7 @@ const TabContent = memo(
               <span className="text-md font-medium text-gray-700">
                 {selectedDate.toLocaleDateString("en-US", {
                   year: "numeric",
-                  month: "long",
+                  month: "short", // changed from long -> short (e.g. Sep)
                   day: "numeric",
                 })}
               </span>
@@ -330,6 +347,25 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
         startOfDay(date).getTime() <
         startOfDay(pastSelectableThreshold).getTime();
 
+      // Build classes so that unselectable dates DO NOT receive hover classes
+      let dayClass =
+        "w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium";
+
+      if (isSelected) {
+        dayClass += " bg-[#cb212e] text-white";
+      } else {
+        if (isUnselectablePastDate) {
+          // gray, unclickable, no hover effect
+          dayClass += " text-gray-300 cursor-not-allowed";
+        } else {
+          // selectable
+          dayClass += " hover:bg-gray-200 text-gray-800";
+          if (isToday) {
+            dayClass += " border border-[#cb212e] text-[#cb212e]";
+          }
+        }
+      }
+
       daysArray.push(
         <div
           key={day}
@@ -341,21 +377,7 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
                   onClose();
                 }
           }
-          className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium
-            ${
-              isSelected
-                ? "bg-[#cb212e] text-white"
-                : "hover:bg-gray-200 text-gray-800"
-            }
-            ${
-              isToday && !isSelected ? "border border-[#cb212e] text-[#cb212e]" : ""
-            }
-            ${
-              isUnselectablePastDate
-                ? "text-gray-300 cursor-not-allowed hover:bg-transparent"
-                : ""
-            }
-          `}
+          className={dayClass}
         >
           {day}
         </div>

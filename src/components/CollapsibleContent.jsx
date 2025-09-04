@@ -49,10 +49,10 @@ const CollapsibleContent = () => {
           Explore More ➜
         </button>
       ) : (
-        <div className="w-full max-w-4xl space-y-6 mt-10">
+        <div className="w-full max-w-4xl space-y-6 mt-10 px-4 sm:px-0">
           {/* Benefits Card */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
-            <h3 className="text-xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2 text-center">
               Benefits of Ordering Food on Train Using RailFeast
             </h3>
             <ol className="list-decimal ml-5 space-y-2 text-gray-700">
@@ -81,7 +81,7 @@ const CollapsibleContent = () => {
 
           {/* How to Use Card */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
-            <h3 className="text-xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2 text-center">
               How to Use RailFeast for Railway Food Delivery
             </h3>
             <p>
@@ -100,7 +100,7 @@ const CollapsibleContent = () => {
 
           {/* Menu Options Card */}
           <div className="bg-white shadow-md rounded-2xl p-6">
-            <h3 className="text-xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2 text-center">
               Menu Options for Train Food Delivery
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-gray-700">
@@ -119,14 +119,14 @@ const CollapsibleContent = () => {
 
           {/* Install App Section */}
           <div className="bg-white shadow-md rounded-2xl p-6 space-y-2">
-            <h3 className="text-xl font-bold">
+            <h3 className="text-xl font-bold text-center">
               Get Food on Train! Install RailFeast App
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-700 text-center">
               Search “Train”, enter PNR & order your food. Experience fresh
               meals delivered without leaving your seat.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 items-center">
               <a
                 href="#"
                 className="block text-blue-600 underline font-semibold"
@@ -166,7 +166,7 @@ const CollapsibleContent = () => {
 
           {/* Train List Card */}
           <div className="bg-white shadow-md rounded-2xl p-6">
-            <h3 className="text-xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2 text-center">
               Top Trains on which RailFeast is Delivering
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
@@ -198,7 +198,7 @@ const CollapsibleContent = () => {
 
           {/* Station List Card */}
           <div className="bg-white shadow-md rounded-2xl p-6">
-            <h3 className="text-xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2 text-center">
               Top Stations on which RailFeast is Delivering
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
