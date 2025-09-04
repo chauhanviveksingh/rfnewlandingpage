@@ -216,7 +216,7 @@ const TabContent = memo(
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
-              placeholder="Enter Train Number"
+              placeholder="Enter Train Name/No."
               value={trainNumber}
               onChange={handleTrainNumberChange}
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
@@ -224,7 +224,7 @@ const TabContent = memo(
             <div className="relative" ref={codeWrapperRef}>
               <input
                 type="text"
-                placeholder="Enter Boarding Station/Code (e.g. NDLS)"
+                placeholder="Enter Boarding Station (e.g. New Delhi Junction)"
                 value={stationCode}
                 onChange={handleStationCodeChange}
                 className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
