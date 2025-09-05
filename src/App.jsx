@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef, memo } from "react";
-import { CalendarDays } from "lucide-react";
-import HomeImg from "./assets/home_img.webp"; // keep your asset path
+import { CalendarDays, ChevronDown } from "lucide-react";
+import HomeImg from "./assets/home_img.webp"; 
+
 
 const homeImgUrl = HomeImg;
-
 const startOfDay = (d) => {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
   return x;
 };
-
 const formatDateParts = (date) => {
   const day = date.toLocaleDateString("en-US", { day: "2-digit" });
   const month = date.toLocaleDateString("en-US", { month: "short" });
   const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
   return { month, day, weekday };
 };
-
 /* ---------------- small station dataset (demo) ----------------
    Replace/extend this array with your real station data when ready.
 */
@@ -30,7 +28,6 @@ const stationList = [
   { name: "Kolkata", code: "KOAA" },
   { name: "Secunderabad", code: "SC" },
 ];
-
 /* ---------------- TabContent ---------------- */
 const TabContent = memo(
   ({
@@ -52,13 +49,11 @@ const TabContent = memo(
   }) => {
     // validation error state
     const [pnrError, setPnrError] = useState("");
-
     // dropdown states & refs
     const [stationDropdown, setStationDropdown] = useState([]);
     const [codeDropdown, setCodeDropdown] = useState([]);
     const stationWrapperRef = useRef(null);
     const codeWrapperRef = useRef(null);
-
     // close dropdowns when clicking outside
     useEffect(() => {
       const onDocClick = (e) => {
@@ -72,7 +67,6 @@ const TabContent = memo(
       document.addEventListener("click", onDocClick);
       return () => document.removeEventListener("click", onDocClick);
     }, []);
-
     // close calendar when clicking outside the date picker/calendar
     useEffect(() => {
       const onDocClickCloseCalendar = (e) => {
@@ -85,17 +79,14 @@ const TabContent = memo(
           setShowFullCalendar(false);
         }
       };
-
       document.addEventListener("mousedown", onDocClickCloseCalendar);
       return () => document.removeEventListener("mousedown", onDocClickCloseCalendar);
     }, [showFullCalendar, datePickerRef, setShowFullCalendar]);
-
     // Handlers
     const handlePnrChange = (e) => {
       const v = e.target.value;
       if (/^\d*$/.test(v)) {
         setPnrNumber(v);
-
         if (v === "") {
           setPnrError("");
         } else if (!/^[2468]/.test(v)) {
@@ -107,7 +98,6 @@ const TabContent = memo(
         }
       }
     };
-
     const handleStationInputChange = (e) => {
       const v = e.target.value;
       if (/^[a-zA-Z\s]*$/.test(v)) {
@@ -122,12 +112,10 @@ const TabContent = memo(
         }
       }
     };
-
     const handleTrainNumberChange = (e) => {
       const v = e.target.value;
       if (/^\d*$/.test(v)) setTrainNumber(v);
     };
-
     const handleStationCodeChange = (e) => {
       const v = e.target.value.toUpperCase();
       if (/^[A-Z]*$/.test(v)) {
@@ -142,9 +130,7 @@ const TabContent = memo(
         }
       }
     };
-
     const today = startOfDay(new Date());
-
     const cardDates = Array.from({ length: 6 }, (_, offset) => {
       const d = new Date(today);
       d.setDate(d.getDate() + offset);
@@ -154,11 +140,16 @@ const TabContent = memo(
         label: offset === 0 ? "Today" : null,
       };
     });
-
     const selectedIndex = cardDates.findIndex(
       (cd) => cd.date.toDateString() === startOfDay(selectedDate).toDateString()
     );
-
+    const toggleCodeDropdown = () => {
+        if (codeDropdown.length > 0) {
+            setCodeDropdown([]);
+        } else {
+            setCodeDropdown(stationList);
+        }
+    };
     return (
       <div className="mt-6">
         {/* By PNR */}
@@ -177,7 +168,6 @@ const TabContent = memo(
             {pnrError && <p className="text-[#cb212e] text-sm mt-1">{pnrError}</p>}
           </div>
         </div>
-
         {/* By Station */}
         <div className={`${activeTab === "By Station" ? "" : "hidden"}`}>
           <div className="relative grid grid-cols-1 gap-4" ref={stationWrapperRef}>
@@ -208,7 +198,6 @@ const TabContent = memo(
             )}
           </div>
         </div>
-
         {/* By Train No */}
         <div className={`${activeTab === "By Train No" ? "" : "hidden"}`}>
           <div className="relative grid grid-cols-1 gap-4">
@@ -222,14 +211,23 @@ const TabContent = memo(
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
             />
             <div className="relative" ref={codeWrapperRef}>
-              <input
-                type="text"
-                placeholder="Enter Boarding Station (e.g. New Delhi Junction)"
-                value={stationCode}
-                onChange={handleStationCodeChange}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
-                aria-autocomplete="list"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Enter Boarding Station"
+                  value={stationCode}
+                  onChange={handleStationCodeChange}
+                  className="w-full p-3 pr-10 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cb212e] focus:outline-none transition-all duration-200"
+                  aria-autocomplete="list"
+                />
+                <button
+                    type="button"
+                    onClick={toggleCodeDropdown}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-[#cb212e]"
+                >
+                    <ChevronDown size={20} />
+                </button>
+              </div>
               {codeDropdown.length > 0 && (
                 <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-md max-h-44 overflow-y-auto z-20">
                   {codeDropdown.map((s, i) => (
@@ -249,7 +247,6 @@ const TabContent = memo(
               )}
             </div>
           </div>
-
           {/* Date picker + 6-date cards for By Train No tab only */}
           <div className="mt-8 relative" ref={datePickerRef}>
             <div
@@ -266,7 +263,6 @@ const TabContent = memo(
                 })}
               </span>
             </div>
-
             <div className="mt-4 flex space-x-2 overflow-x-auto pb-2 -mx-4 px-4 sm:px-0">
               {cardDates.map((dateObj, index) => (
                 <div
@@ -286,7 +282,6 @@ const TabContent = memo(
                 </div>
               ))}
             </div>
-
             {showFullCalendar && (
               <div
                 className={`absolute left-0 mt-2 z-20 ${
@@ -306,7 +301,6 @@ const TabContent = memo(
     );
   }
 );
-
 /* ---------------- FullCalendar ---------------- */
 const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
   const [currentMonth, setCurrentMonth] = useState(
@@ -317,7 +311,6 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
   const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
   const renderDays = () => {
     const totalDays = daysInMonth(
       currentMonth.getMonth(),
@@ -328,11 +321,9 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
       currentMonth.getFullYear()
     );
     const daysArray = [];
-
     for (let i = 0; i < firstDay; i++) {
       daysArray.push(<div key={`empty-${i}`} className="w-10 h-10"></div>);
     }
-
     for (let day = 1; day <= totalDays; day++) {
       const date = new Date(
         currentMonth.getFullYear(),
@@ -346,11 +337,9 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
       const isUnselectablePastDate =
         startOfDay(date).getTime() <
         startOfDay(pastSelectableThreshold).getTime();
-
       // Build classes so that unselectable dates DO NOT receive hover classes
       let dayClass =
         "w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-sm font-medium";
-
       if (isSelected) {
         dayClass += " bg-[#cb212e] text-white";
       } else {
@@ -365,7 +354,6 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
           }
         }
       }
-
       daysArray.push(
         <div
           key={day}
@@ -385,15 +373,12 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
     }
     return daysArray;
   };
-
   const nextMonth = () => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
   };
-
   const prevMonth = () => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1));
   };
-
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
       <div className="flex justify-between items-center mb-4">
@@ -425,7 +410,6 @@ const FullCalendar = memo(({ selectedDate, setSelectedDate, onClose }) => {
     </div>
   );
 });
-
 /* ---------------- App ---------------- */
 const App = () => {
   const [activeTab, setActiveTab] = useState("By PNR");
@@ -433,21 +417,17 @@ const App = () => {
   const [stationInput, setStationInput] = useState("");
   const [trainNumber, setTrainNumber] = useState("");
   const [stationCode, setStationCode] = useState("");
-
   const today = startOfDay(new Date());
   const [selectedDate, setSelectedDate] = useState(today);
   const [showFullCalendar, setShowFullCalendar] = useState(false);
   const [calendarPosition, setCalendarPosition] = useState("bottom");
-
   const datePickerRef = useRef(null);
-
   useEffect(() => {
     const handleScroll = () => {
       if (datePickerRef.current) {
         const rect = datePickerRef.current.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         const calendarHeight = 400;
-
         if (rect.bottom + calendarHeight > viewportHeight) {
           setCalendarPosition("top");
         } else {
@@ -455,15 +435,12 @@ const App = () => {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [showFullCalendar]);
-
   const commonButtonClass =
     "col-span-1 h-16 md:h-10 w-full bg-[#cb212e] text-white font-bold text-xl rounded-xl shadow-md hover:bg-[#cb212e] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#cb212e] focus:ring-offset-2";
-
   const Tabs = () => {
     const tabs = ["By PNR", "By Station", "By Train No"];
     return (
@@ -492,22 +469,19 @@ const App = () => {
       </div>
     );
   };
-
   return (
     <div className="h-auto bg-gray-100 font-sans flex flex-col items-center">
       <div className="relative w-full overflow-hidden bg-white shadow-lg rounded-b-[6px]">
         <img
           src={homeImgUrl}
-          alt="A family eating together in a train"
+          alt="A passenger on a train with a food delivery box"
           className="w-full h-64 sm:h-80 md:h-96 object-cover object-center rounded-b-[6px]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-b-[6px]"></div>
       </div>
-
       <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 text-center drop-shadow-md mt-8">
         Order food online in train!
       </h1>
-
       <div className="relative w-11/12 mt-10 max-w-2xl bg-white p-6 md:p-8 rounded-3xl shadow-xl z-10">
         <Tabs />
         <TabContent
@@ -527,7 +501,6 @@ const App = () => {
           calendarPosition={calendarPosition}
           datePickerRef={datePickerRef}
         />
-
         <div className="mt-10">
           <button
             onClick={() => {
@@ -546,10 +519,8 @@ const App = () => {
           </button>
         </div>
       </div>
-
       <div className="py-10" />
     </div>
   );
 };
-
 export default App;

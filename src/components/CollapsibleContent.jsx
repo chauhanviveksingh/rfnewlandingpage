@@ -51,7 +51,7 @@ const CollapsibleContent = () => {
       ) : (
         <div className="w-full max-w-4xl space-y-6 mt-10 px-4 sm:px-0">
           {/* Benefits Card */}
-          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3 border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-center">
               Benefits of Ordering Food on Train Using RailFeast
             </h3>
@@ -80,7 +80,7 @@ const CollapsibleContent = () => {
           </div>
 
           {/* How to Use Card */}
-          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3">
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-3 border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-center">
               How to Use RailFeast for Railway Food Delivery
             </h3>
@@ -99,7 +99,7 @@ const CollapsibleContent = () => {
           </div>
 
           {/* Menu Options Card */}
-          <div className="bg-white shadow-md rounded-2xl p-6">
+          <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-center">
               Menu Options for Train Food Delivery
             </h3>
@@ -118,7 +118,7 @@ const CollapsibleContent = () => {
           </div>
 
           {/* Install App Section */}
-          <div className="bg-white shadow-md rounded-2xl p-6 space-y-2">
+          <div className="bg-white shadow-md rounded-2xl p-6 space-y-2 border border-gray-200">
             <h3 className="text-xl font-bold text-center">
               Get Food on Train! Install RailFeast App
             </h3>
@@ -143,7 +143,7 @@ const CollapsibleContent = () => {
           </div>
 
           {/* FAQ Card */}
-          <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6">
+          <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
             <h3 className="text-xl font-bold mb-4 text-center">FAQ's</h3>
             {faqData.map((faq, index) => (
               <div
@@ -152,10 +152,10 @@ const CollapsibleContent = () => {
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full flex justify-between items-center text-left font-medium"
+                  className="w-full flex justify-between items-center text-left font-medium gap-4"
                 >
                   {faq.q}
-                  <span>{openFaqIndex === index ? "⌃" : "⌵"}</span>
+                  <span>{openFaqIndex === index ? "^" : "⌄"}</span>
                 </button>
                 {openFaqIndex === index && (
                   <p className="mt-2 text-gray-700">{faq.a}</p>
@@ -165,11 +165,11 @@ const CollapsibleContent = () => {
           </div>
 
           {/* Train List Card */}
-          <div className="bg-white shadow-md rounded-2xl p-6">
+          <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-center">
               Top Trains on which RailFeast is Delivering
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-1 text-gray-700">
               {[
                 "Order Food at KONARK EXPRESS – 11019",
                 "Order Food at JYOTI EXPRESS – 12565",
@@ -186,10 +186,7 @@ const CollapsibleContent = () => {
                 "Order Food at CAPE MUMBAI EXPRESS – 16382",
                 "Order Food at BANGALORE EXPRESS – 16525",
               ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="border border-gray-300 rounded-lg p-3 hover:bg-orange-50 transition"
-                >
+                <div key={idx} className="p-0.5">
                   {item}
                 </div>
               ))}
@@ -197,11 +194,11 @@ const CollapsibleContent = () => {
           </div>
 
           {/* Station List Card */}
-          <div className="bg-white shadow-md rounded-2xl p-6">
+          <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-center">
               Top Stations on which RailFeast is Delivering
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2  text-gray-700">
               {[
                 "Order Food at Surat railway station",
                 "Order Food at Nagpur railway station",
@@ -211,10 +208,7 @@ const CollapsibleContent = () => {
                 "Order Food at Kanpur railway station",
                 "Order Food at Delhi railway station",
               ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="border border-gray-300 rounded-lg p-3 hover:bg-orange-50 transition"
-                >
+                <div key={idx} className="p-0.5">
                   {item}
                 </div>
               ))}

@@ -45,7 +45,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export default function Testimonials() {
+const App = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function Testimonials() {
     <div className="flex flex-col items-center justify-center w-auto bg-white py-8 px-6 md:px-10">
       {/* Heading */}
       <motion.h2
-        className="text-3xl md:text-4xl font-bold text-[#cb212e] mb-10"
+        className="text-3xl md:text-4xl font-bold text-[#cb212e] mb-10 text-center"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -67,45 +67,11 @@ export default function Testimonials() {
         What Customers Say – Testimonials & Ratings
       </motion.h2>
 
-      {/* Vertical Avatar Strip */}
-      <div className="overflow-hidden h-[300px] w-full flex justify-center mb-10">
-        <motion.div
-          className="flex flex-col items-center gap-6"
-          initial={{ y: 0 }}
-          animate={{ y: `-${activeIndex * 104}px` }} // 80px img + 24px gap
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
-        >
-          {reviews.map((review, i) => {
-            const isActive = i === activeIndex;
-            return (
-              <motion.div
-                key={i}
-                className="flex-shrink-0 flex flex-col items-center cursor-pointer transition-all duration-500"
-                onClick={() => setActiveIndex(i)}
-                style={{
-                  opacity: isActive ? 1 : 0.3,
-                  transform: `scale(${isActive ? 1.2 : 0.8})`,
-                }}
-              >
-                <img
-                  src={review.img}
-                  alt={review.name}
-                  className="rounded-full shadow-lg border-4 border-[#cb212e] h-20 w-20 object-cover"
-                />
-                <p className="mt-2 text-sm font-medium text-gray-700 text-center">
-                  {review.name}
-                </p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </div>
-
       {/* Active Review Section */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeIndex}
-          className="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-4xl"
+          className="flex flex-col items-center md:items-center gap-8 max-w-4xl"
           initial="hidden"
           animate="visible"
           exit="hidden"
@@ -115,12 +81,12 @@ export default function Testimonials() {
           <motion.img
             src={reviews[activeIndex].img}
             alt={reviews[activeIndex].name}
-            className="rounded-full shadow-lg border-4 border-[#cb212e] h-40 w-40 object-cover"
+            className="rounded-full w-40 h-40 object-cover border-4 border-white shadow-[0_8px_16px_rgba(100,100,100,0.6)]"
             variants={itemVariants}
           />
           {/* Review text */}
           <motion.div
-            className="flex flex-col text-center md:text-left"
+            className="flex flex-col text-center"
             variants={itemVariants}
           >
             <p className="font-semibold text-2xl text-gray-800">
@@ -130,7 +96,7 @@ export default function Testimonials() {
               {reviews[activeIndex].review}
             </p>
             {/* Stars */}
-            <div className="flex justify-center md:justify-start mt-3">
+            <div className="flex justify-center mt-3">
               {Array.from({ length: reviews[activeIndex].rating }).map((_, i) => (
                 <Star
                   key={i}
@@ -145,3 +111,5 @@ export default function Testimonials() {
     </div>
   );
 }
+
+export default App;
