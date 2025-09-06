@@ -3,6 +3,9 @@ import { X } from "lucide-react"; // using lucide-react for a clean close icon
 
 const FloatingButtons = () => {
   const [showButtons, setShowButtons] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const couponCode = "RAIL25";
 
   // Show buttons after 1 second
   useEffect(() => {
@@ -12,10 +15,12 @@ const FloatingButtons = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle click + hide
-  const handleClick = (url) => {
-    setShowButtons(false);
-    window.open(url, "_blank");
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(couponCode);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000); // Reset "Copied!" message after 2 seconds
   };
 
   return (
@@ -25,7 +30,7 @@ const FloatingButtons = () => {
       }`}
     >
       {/* Floating Card */}
-      <div className="relative bg-white w-full shadow-2xl p-6 flex flex-col md:flex-row justify-center gap-4">
+      <div className="relative bg-white w-full shadow-2xl rounded-t-2xl p-6 flex flex-col items-center">
         {/* Close Button */}
         <button
           onClick={() => setShowButtons(false)}
@@ -34,21 +39,40 @@ const FloatingButtons = () => {
           <X size={20} />
         </button>
 
-        {/* Button 1 - Order Food */}
-        <button
-          onClick={() => handleClick("https://railfeast.com")}
-          className="w-full md:w-auto bg-[#cb212e] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-[#cb212e] transition-all duration-300"
-        >
-          Order Food on RailFeast
-        </button>
+        {/* Discount Text and Copy Code */}
+        <div className="text-center mb-4">
+          <p className="text-xl font-semibold text-gray-800">
+            Get 25% Discount Only on App
+          </p>
+          <div className="flex items-center justify-center mt-2">
+            <span className="text-2xl font-bold text-[#cb212e] mr-2">
+              {couponCode}
+            </span>
+            <button
+              onClick={handleCopyCode}
+              className="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-full hover:bg-gray-300 transition-all duration-300"
+            >
+              {isCopied ? "Copied!" : "Copy Code"}
+            </button>
+          </div>
+        </div>
 
-        {/* Button 2 - Download App */}
-        <button
-          onClick={() => handleClick("https://railfeast.com/download")}
-          className="w-full md:w-auto bg-gray-900 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
-        >
-          Download The RailFeast App
-        </button>
+        {/* Action Buttons */}
+        <div className="w-full flex flex-col items-center gap-2">
+          <button
+            onClick={() => window.open("https://railfeast.com/download", "_blank")}
+            className="w-full bg-[#cb212e] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-[#a61a25] transition-all duration-300"
+          >
+            Order on RailFeast App
+          </button>
+          <p className="text-gray-500 my-2">Or</p>
+          <button
+            onClick={() => setShowButtons(false)}
+            className="w-full bg-white text-[#cb212e] font-bold py-3 px-6 rounded-xl shadow-md border-2 border-[#cb212e] hover:bg-red-50 transition-all duration-300"
+          >
+            Stay in Browser
+          </button>
+        </div>
       </div>
     </div>
   );
