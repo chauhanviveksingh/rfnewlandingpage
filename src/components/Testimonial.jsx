@@ -29,20 +29,10 @@ const reviews = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
+const reviewVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
 };
 
 const App = () => {
@@ -58,58 +48,58 @@ const App = () => {
   return (
     <div className="flex flex-col items-center justify-center w-auto bg-white py-8 px-6 md:px-10">
       {/* Heading */}
-      <motion.h2
-        className="text-3xl md:text-4xl font-bold text-[#cb212e] mb-10 text-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <h2 className="text-3xl md:text-4xl font-bold text-[#cb212e] mb-12 text-center">
         What Customers Say – Testimonials & Ratings
-      </motion.h2>
+      </h2>
 
-      {/* Active Review Section */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeIndex}
-          className="flex flex-col items-center md:items-center gap-8 max-w-4xl"
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={containerVariants}
-        >
-          {/* Main Image for Active Review */}
-          <motion.img
-            src={reviews[activeIndex].img}
-            alt={reviews[activeIndex].name}
-            className="rounded-full w-40 h-40 object-cover border-4 border-white shadow-[0_8px_16px_rgba(100,100,100,0.6)]"
-            variants={itemVariants}
-          />
-          {/* Review text */}
+      {/* Review Container */}
+      <div className="relative w-full max-w-4xl min-h-[420px] sm:min-h-[460px] flex items-center justify-center pt-6">
+        <AnimatePresence mode="wait">
           <motion.div
-            className="flex flex-col text-center"
-            variants={itemVariants}
+            key={activeIndex}
+            className="absolute flex flex-col items-center text-center px-4"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={reviewVariants}
+            transition={{ duration: 0.6 }}
           >
-            <p className="font-semibold text-2xl text-gray-800">
+            {/* Image */}
+            <img
+              src={reviews[activeIndex].img}
+              alt={reviews[activeIndex].name}
+              className="rounded-full w-32 h-32 sm:w-40 sm:h-40 object-cover border-4 border-white shadow-[0_8px_16px_rgba(100,100,100,0.6)] mx-auto mb-6"
+            />
+
+            {/* Name */}
+            <p className="font-semibold text-xl sm:text-2xl text-gray-800">
               {reviews[activeIndex].name}
             </p>
-            <p className="text-lg md:text-xl text-gray-700 mt-2 max-w-xl">
+
+            {/* Review */}
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 mt-2 max-w-xl max-h-[200px] overflow-y-auto">
               {reviews[activeIndex].review}
             </p>
+
             {/* Stars */}
             <div className="flex justify-center mt-3">
               {Array.from({ length: reviews[activeIndex].rating }).map((_, i) => (
                 <Star
                   key={i}
-                  className="w-6 h-6 text-yellow-400 fill-yellow-400"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 fill-yellow-400"
                 />
               ))}
             </div>
-            <p className="text-[#cb212e] mt-2">{reviews[activeIndex].date}</p>
+
+            {/* Date */}
+            <p className="text-[#cb212e] mt-2 text-sm sm:text-base">
+              {reviews[activeIndex].date}
+            </p>
           </motion.div>
-        </motion.div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

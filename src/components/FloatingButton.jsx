@@ -5,7 +5,7 @@ const FloatingButtons = () => {
   const [showButtons, setShowButtons] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
-  const couponCode = "RAIL25";
+  const couponCode = "FEAST25";
 
   // Show buttons after 1 second
   useEffect(() => {
@@ -23,9 +23,26 @@ const FloatingButtons = () => {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
     setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000); // Reset "Copied!" message after 2 seconds
+  };
+  
+  const handleOrderClick = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    let appUrl = "https://railfeast.com/download"; // Fallback URL
+
+    // Check for Android
+    if (/android/i.test(userAgent)) {
+      appUrl = "https://play.google.com/store/apps/details?id=com.railfeast&hl=en_IN";
+    }
+    // Check for iOS (iPhone, iPad, iPod)
+    else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      appUrl = "https://apps.apple.com/in/app/railfeast-order-food-in-train/id6476834902";
+    }
+    // Check for Windows
+    else if (/Windows/.test(userAgent)) {
+      appUrl = "https://play.google.com/store/apps/details?id=com.railfeast&hl=en_IN";
+    }
+
+    window.open(appUrl, "_blank");
   };
 
   return (
@@ -39,9 +56,9 @@ const FloatingButtons = () => {
         {/* Close Button */}
         <button
           onClick={() => setShowButtons(false)}
-          className="absolute top-2 right-2 text-gray-500 hover:text-[#cb212e] transition"
+          className="absolute top-2 right-2 transition bg-white rounded-full p-2 shadow-md hover:shadow-lg flex items-center justify-center"
         >
-          <X size={20} />
+          <X size={20} className="text-gray-500 hover:text-[#cb212e] transition"/>
         </button>
 
         {/* Discount Text and Copy Code */}
@@ -55,7 +72,7 @@ const FloatingButtons = () => {
             </span>
             <button
               onClick={handleCopyCode}
-              className="bg-gray-200 text-gray-700 text-sm font-medium py-1 px-3 rounded-full hover:bg-gray-300 transition-all duration-300"
+              className={`text-sm font-medium py-1 px-3 rounded-full transition-all duration-300 ${isCopied ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
             >
               {isCopied ? "Copied!" : "Copy Code"}
             </button>
@@ -65,18 +82,18 @@ const FloatingButtons = () => {
         {/* Action Buttons */}
         <div className="w-full flex flex-col items-center gap-2">
           <button
-            onClick={() => window.open("https://play.google.com/store/apps/details?id=com.railfeast&hl=en_IN", "_blank")}
+            onClick={handleOrderClick}
             className="w-full bg-[#cb212e] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-[#a61a25] transition-all duration-300"
           >
             Order on RailFeast App
           </button>
           <p className="text-gray-500 my-1">Or</p>
-          <button
+          <p
             onClick={() => setShowButtons(false)}
-            className="w-full bg-white text-[#cb212e] font-bold py-3 px-6 rounded-xl shadow-md border-2 border-[#cb212e] hover:bg-red-50 transition-all duration-300"
+            className="text-[#cb212e] font-bold mt-2 cursor-pointer hover:underline"
           >
             Stay in Browser
-          </button>
+          </p>
         </div>
       </div>
     </div>
