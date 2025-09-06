@@ -16,7 +16,12 @@ const FloatingButtons = () => {
   }, []);
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(couponCode);
+    const tempInput = document.createElement('textarea');
+    tempInput.value = couponCode;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -60,12 +65,12 @@ const FloatingButtons = () => {
         {/* Action Buttons */}
         <div className="w-full flex flex-col items-center gap-2">
           <button
-            onClick={() => window.open("https://railfeast.com/download", "_blank")}
+            onClick={() => window.open("https://play.google.com/store/apps/details?id=com.railfeast&hl=en_IN", "_blank")}
             className="w-full bg-[#cb212e] text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-[#a61a25] transition-all duration-300"
           >
             Order on RailFeast App
           </button>
-          <p className="text-gray-500 my-2">Or</p>
+          <p className="text-gray-500 my-1">Or</p>
           <button
             onClick={() => setShowButtons(false)}
             className="w-full bg-white text-[#cb212e] font-bold py-3 px-6 rounded-xl shadow-md border-2 border-[#cb212e] hover:bg-red-50 transition-all duration-300"
